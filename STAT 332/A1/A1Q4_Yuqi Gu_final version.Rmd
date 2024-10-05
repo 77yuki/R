@@ -1,0 +1,123 @@
+---
+title: "STAT 332 A1Q4"
+author: "Yuqi Gu"
+date: "6/2/2024"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+classurv <- read.csv("~/Desktop/STAT 332/Assignments/A1/classurv.txt", sep="")
+library(survey)
+```
+
+### (a)
+```{r}
+classurv$GPA[classurv$GPA == -9] <- NA
+N <- 350
+svy <- svydesign(ids = ~1, probs = c(nrow(classurv)/N), fpc = rep(N, nrow(classurv)), 
+                 data=classurv)
+summary(svy)
+GPA_mean <- svymean(~GPA, svy, na.rm = TRUE)
+GPA_mean
+dfall <- nrow(subset(classurv, !is.na(GPA)))-1
+confint(GPA_mean, "GPA", df=dfall)
+```
+The point estimate for average GPA of all students is 3.006. The corresponding 95% CI is [2.90498, 3.107103].
+
+### (b)
+```{r}
+male_students <- classurv[classurv$gender==1,]
+n_male <- nrow(male_students)
+male_svy <- svydesign(ids = ~1, probs = c(n_male/N), fpc=rep(N,nrow(male_students)), 
+                     data=male_students)
+male_mean <- svymean(~GPA, male_svy, na.rm = TRUE)
+male_mean
+dfmale <- nrow(subset(classurv[classurv$gender==1,], !is.na(GPA)))-1
+confint(male_mean, "GPA", df=dfmale)
+```
+The point estimate for average GPA of all male students is 3.0491. The corresponding 95% CI is [2.908975, 3.189286].
+
+
+### (c)
+```{r}
+female_students <- classurv[classurv$gender==2,]
+n_female <- nrow(female_students)
+female_svy <- svydesign(ids = ~1, probs = c(n_female/N), fpc=rep(N,nrow(female_students)), 
+                      data=female_students)
+female_mean <- svymean(~GPA, female_svy, na.rm = TRUE)
+female_mean
+dffemale <- nrow(subset(classurv[classurv$gender==2,], !is.na(GPA)))-1
+confint(female_mean, "GPA", df=dffemale)
+```
+The point estimate for average GPA of all female students is 2.9664. The corresponding 95% CI is [2.801902, 3.130898].
+
+
+### (d)
+```{r}
+spmale<-svyciprop(~I(gender==1), svy, method="mean", na.rm = TRUE)
+spmale
+spfemale<-svyciprop(~I(gender==2), svy, method="mean", na.rm = TRUE)
+spfemale
+```
+The point estimate for the proportion of male students is 0.404. The corresponding 95% CI for the proportion of male students is [0.283, 0.52]. The point estimate for the proportion of female students is 0.596. The corresponding 95% CI for the proportion of female students is [0.476, 0.72].
+
+
+### (e)
+```{r}
+svyyear1<-svyciprop(~I(year==1), svy, method ="logit", na.rm = TRUE)
+svyyear1
+svyyear2<-svyciprop(~I(year==2), svy, method ="logit", na.rm = TRUE)
+svyyear2
+svyyear3<-svyciprop(~I(year==3), svy, method ="mean", na.rm = TRUE)
+svyyear3
+svyyear4<-svyciprop(~I(year==4), svy, method ="mean", na.rm = TRUE)
+svyyear4
+svyyear5<-svyciprop(~I(year==5), svy, method ="logit", na.rm = TRUE)
+svyyear5
+```
+The point estimates for the proportions of students that are freshman/sophomore/junior/senior/other are respectively 0.1404, 0.1228, 0.439, 0.263,0.03509.
+The corresponding 95% CI for the proportions of students that are freshman/sophomore/junior/senior/other are respectively [0.0746, 0.25], [0.0622, 0.23], [0.317, 0.56], [0.155, 0.37], [0.00952, 0.12].
+Note that since the point estimates for the proportions of students that are freshman/sophomore/other are smaller than 0.2, we use logit. 
+
+### (f) 
+```{r}
+svyfre <- classurv[classurv$year==1,]
+n_svyfreshman <- nrow(svyfre)
+freshman_svy <- svydesign(ids = ~1, probs = c(n_svyfreshman/N), fpc=rep(N,nrow(svyfre)), 
+                     data=svyfre)
+
+svyciprop(~I(gender==1), freshman_svy, method ="logit", na.rm = TRUE)
+svyciprop(~I(gender==2), freshman_svy, method ="logit", na.rm = TRUE)
+```
+Amongst freshmen, the point estimate for the proportions of male students is 0.125. The point estimate for the proportions of female students is 0.875. 
+Since amongst freshmen, the point estimate for the proportion of male students is smaller than 0.2 and the point estimate for the proportion of female students is larger than 0.8, we use logit. The corresponding 95% CI for the proportion of male students is [0.00978, 0.67] and the corresponding 95% CI for the proportion of female students is [0.326, 0.99].
+
+### (g) 
+```{r}
+svysen <- classurv[classurv$year==4,]
+n_svysenior <- nrow(svysen)
+senior_svy <- svydesign(ids = ~1, probs = c(n_svysenior/N), fpc=rep(N, nrow(svysen)), 
+                     data=svysen)
+
+svyciprop(~I(gender==1), senior_svy, method="mean", na.rm = TRUE)
+svyciprop(~I(gender==2), senior_svy, method="mean", na.rm = TRUE)
+```
+Amongst seniors, the point estimate for the proportions of male students is 0.6. The corresponding 95% CI for the proportion of male students amongst senior is [0.325, 0.87]. The point estimate for the proportions of female students is 0.4. The corresponding 95% CI for the proportion of female students amongst seniors is [0.125, 0.67].
+
+### (h) 
+```{r}
+topperformers <- classurv[classurv$GPA>=3.2,]
+n_top <- nrow(topperformers)
+top_svy <- svydesign(ids = ~1, probs = c(n_top/N), fpc=rep(N, nrow(topperformers)), 
+                     data=topperformers)
+
+svyciprop(~I(gender==1), top_svy, method="mean", na.rm = TRUE)
+svyciprop(~I(gender==2), top_svy, method="mean", na.rm = TRUE)
+```
+Amongst the top permormers(i.e., GPA >= 3.2), the point estimate for the proportions of male students is 0.5. The corresponding 95% CI for the proportion of male students amongst senior is [0.263, 0.74]. The point estimate for the proportions of female students is 0.5. The corresponding 95% CI for the proportion of female students amongst seniors is [0.263, 0.74].

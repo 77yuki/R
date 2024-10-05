@@ -1,0 +1,433 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\title{A3Q3}
+\author{Yuqi Gu}
+\date{7/12/2024}
+
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={A3Q3},
+  pdfauthor={Yuqi Gu},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+usepackage{multirow}
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+
+\begin{document}
+\maketitle
+
+\hypertarget{a}{%
+\subsubsection{(a)}\label{a}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mac.dat }\OtherTok{\textless{}{-}} \FunctionTok{read.table}\NormalTok{(}\StringTok{"\textasciitilde{}/Desktop/STAT 332/Assignments/A3/machines.txt"}\NormalTok{)}
+\FunctionTok{names}\NormalTok{(mac.dat) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"devi"}\NormalTok{, }\StringTok{"mach"}\NormalTok{)}
+\NormalTok{mac.dat}\SpecialCharTok{$}\NormalTok{mach }\OtherTok{\textless{}{-}} \FunctionTok{as.factor}\NormalTok{(mac.dat}\SpecialCharTok{$}\NormalTok{mach)}
+\NormalTok{mac.aov }\OtherTok{\textless{}{-}} \FunctionTok{aov}\NormalTok{(devi }\SpecialCharTok{\textasciitilde{}}\NormalTok{ mach, }\AttributeTok{data =}\NormalTok{ mac.dat)}
+\FunctionTok{summary}\NormalTok{(mac.aov)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##              Df Sum Sq Mean Sq F value   Pr(>F)    
+## mach          5  2.289  0.4579   14.78 3.64e-11 ***
+## Residuals   114  3.531  0.0310                     
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{verbatim}
+
+\hypertarget{b}{%
+\subsubsection{(b)}\label{b}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{qf}\NormalTok{(}\FloatTok{0.95}\NormalTok{, }\DecValTok{5}\NormalTok{, }\DecValTok{114}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2.293911
+\end{verbatim}
+
+\hypertarget{c}{%
+\subsubsection{(c)}\label{c}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{TukeyHSD}\NormalTok{(mac.aov)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   Tukey multiple comparisons of means
+##     95% family-wise confidence level
+## 
+## Fit: aov(formula = devi ~ mach, data = mac.dat)
+## 
+## $mach
+##        diff        lwr        upr     p adj
+## 2-1  0.1170 -0.0443194  0.2783194 0.2934937
+## 3-1  0.3865  0.2251806  0.5478194 0.0000000
+## 4-1  0.2920  0.1306806  0.4533194 0.0000106
+## 5-1  0.0515 -0.1098194  0.2128194 0.9392011
+## 6-1  0.0780 -0.0833194  0.2393194 0.7260015
+## 3-2  0.2695  0.1081806  0.4308194 0.0000588
+## 4-2  0.1750  0.0136806  0.3363194 0.0252432
+## 5-2 -0.0655 -0.2268194  0.0958194 0.8469184
+## 6-2 -0.0390 -0.2003194  0.1223194 0.9815028
+## 4-3 -0.0945 -0.2558194  0.0668194 0.5359056
+## 5-3 -0.3350 -0.4963194 -0.1736806 0.0000003
+## 6-3 -0.3085 -0.4698194 -0.1471806 0.0000029
+## 5-4 -0.2405 -0.4018194 -0.0791806 0.0004684
+## 6-4 -0.2140 -0.3753194 -0.0526806 0.0026737
+## 6-5  0.0265 -0.1348194  0.1878194 0.9968910
+\end{verbatim}
+
+\hypertarget{d}{%
+\subsubsection{(d)}\label{d}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mac.bonf }\OtherTok{\textless{}{-}} \FunctionTok{TukeyHSD}\NormalTok{(mac.aov) [[}\DecValTok{1}\NormalTok{]]}
+\NormalTok{mac.bonf }\OtherTok{\textless{}{-}}\NormalTok{ mac.bonf[, }\SpecialCharTok{{-}}\FunctionTok{dim}\NormalTok{(mac.bonf)]}
+\NormalTok{mac.bonf }\OtherTok{\textless{}{-}} \FunctionTok{as.data.frame}\NormalTok{(mac.bonf)}
+\NormalTok{mac.bonf}\SpecialCharTok{$}\NormalTok{std }\OtherTok{\textless{}{-}}\NormalTok{ (mac.bonf}\SpecialCharTok{$}\NormalTok{upr }\SpecialCharTok{{-}}\NormalTok{ mac.bonf}\SpecialCharTok{$}\NormalTok{lwr)}\SpecialCharTok{/}\DecValTok{2}
+\NormalTok{mac.bonf}\SpecialCharTok{$}\NormalTok{std }\OtherTok{\textless{}{-}}\NormalTok{ mac.bonf}\SpecialCharTok{$}\NormalTok{std}\SpecialCharTok{*}\FunctionTok{sqrt}\NormalTok{(}\DecValTok{2}\NormalTok{)}\SpecialCharTok{/}\FunctionTok{qtukey}\NormalTok{(}\FloatTok{0.95}\NormalTok{, }\FunctionTok{length}\NormalTok{(mac.aov}\SpecialCharTok{$}\NormalTok{xlevels[[}\DecValTok{1}\NormalTok{]]), mac.aov}\SpecialCharTok{$}\NormalTok{df)}
+
+\NormalTok{tmp }\OtherTok{\textless{}{-}} \FunctionTok{qt}\NormalTok{(}\DecValTok{1}\FloatTok{{-}0.05}\SpecialCharTok{/}\NormalTok{(}\DecValTok{2}\SpecialCharTok{*}\DecValTok{6}\SpecialCharTok{*}\NormalTok{(}\DecValTok{6{-}1}\NormalTok{)}\SpecialCharTok{/}\DecValTok{2}\NormalTok{), mac.aov}\SpecialCharTok{$}\NormalTok{df)}
+\NormalTok{mac.bonf}\SpecialCharTok{$}\NormalTok{lwr }\OtherTok{\textless{}{-}}\NormalTok{ mac.bonf}\SpecialCharTok{$}\NormalTok{diff}\SpecialCharTok{{-}}\NormalTok{tmp}\SpecialCharTok{*}\NormalTok{mac.bonf}\SpecialCharTok{$}\NormalTok{std}
+\NormalTok{mac.bonf}\SpecialCharTok{$}\NormalTok{upr }\OtherTok{\textless{}{-}}\NormalTok{ mac.bonf}\SpecialCharTok{$}\NormalTok{diff}\SpecialCharTok{+}\NormalTok{tmp}\SpecialCharTok{*}\NormalTok{mac.bonf}\SpecialCharTok{$}\NormalTok{std}
+\NormalTok{mac.bonf}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##        diff          lwr         upr        std
+## 2-1  0.1170 -0.049858778  0.28385878 0.05565085
+## 3-1  0.3865  0.219641222  0.55335878 0.05565085
+## 4-1  0.2920  0.125141222  0.45885878 0.05565085
+## 5-1  0.0515 -0.115358778  0.21835878 0.05565085
+## 6-1  0.0780 -0.088858778  0.24485878 0.05565085
+## 3-2  0.2695  0.102641222  0.43635878 0.05565085
+## 4-2  0.1750  0.008141222  0.34185878 0.05565085
+## 5-2 -0.0655 -0.232358778  0.10135878 0.05565085
+## 6-2 -0.0390 -0.205858778  0.12785878 0.05565085
+## 4-3 -0.0945 -0.261358778  0.07235878 0.05565085
+## 5-3 -0.3350 -0.501858778 -0.16814122 0.05565085
+## 6-3 -0.3085 -0.475358778 -0.14164122 0.05565085
+## 5-4 -0.2405 -0.407358778 -0.07364122 0.05565085
+## 6-4 -0.2140 -0.380858778 -0.04714122 0.05565085
+## 6-5  0.0265 -0.140358778  0.19335878 0.05565085
+\end{verbatim}
+
+\hypertarget{e}{%
+\subsubsection{(e)}\label{e}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tmpe }\OtherTok{\textless{}{-}} \FunctionTok{model.tables}\NormalTok{(mac.aov, }\AttributeTok{type=}\StringTok{"means"}\NormalTok{)}
+\NormalTok{mac.tab }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\FunctionTok{names}\NormalTok{(tmpe}\SpecialCharTok{$}\NormalTok{tables[[}\DecValTok{2}\NormalTok{]]), }\FunctionTok{c}\NormalTok{(tmpe}\SpecialCharTok{$}\NormalTok{tables[[}\DecValTok{2}\NormalTok{]]), tmpe}\SpecialCharTok{$}\NormalTok{n[[}\DecValTok{1}\NormalTok{]])}
+\FunctionTok{colnames}\NormalTok{(mac.tab) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\FunctionTok{names}\NormalTok{(tmpe}\SpecialCharTok{$}\NormalTok{tables[}\DecValTok{2}\NormalTok{]),}\StringTok{"means"}\NormalTok{,}\StringTok{"ni"}\NormalTok{)}
+\NormalTok{mac.tab}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   mach  means ni
+## 1    1 0.0735 20
+## 2    2 0.1905 20
+## 3    3 0.4600 20
+## 4    4 0.3655 20
+## 5    5 0.1250 20
+## 6    6 0.1515 20
+\end{verbatim}
+
+\hypertarget{i}{%
+\subsubsection{i)}\label{i}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{MSE }\OtherTok{\textless{}{-}} \FloatTok{0.031}
+\NormalTok{ni }\OtherTok{\textless{}{-}} \DecValTok{20}
+\NormalTok{L\_hati }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{(mac.tab}\SpecialCharTok{$}\NormalTok{means[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{4}\NormalTok{])}\SpecialCharTok{/}\DecValTok{4} \SpecialCharTok{{-}} \FunctionTok{sum}\NormalTok{(mac.tab}\SpecialCharTok{$}\NormalTok{means[}\DecValTok{5}\SpecialCharTok{:}\DecValTok{6}\NormalTok{])}\SpecialCharTok{/}\DecValTok{2}
+\NormalTok{s\_i }\OtherTok{\textless{}{-}} \FunctionTok{sqrt}\NormalTok{((}\DecValTok{6{-}1}\NormalTok{)}\SpecialCharTok{*}\FunctionTok{qf}\NormalTok{(}\FloatTok{0.95}\NormalTok{, }\DecValTok{5}\NormalTok{, }\DecValTok{114}\NormalTok{))}
+\NormalTok{vari }\OtherTok{\textless{}{-}}\NormalTok{ MSE}\SpecialCharTok{*}\NormalTok{(}\DecValTok{4}\SpecialCharTok{*}\NormalTok{(}\DecValTok{1}\SpecialCharTok{/}\DecValTok{4}\NormalTok{)}\SpecialCharTok{\^{}}\DecValTok{2}\SpecialCharTok{/}\NormalTok{ni}\SpecialCharTok{+}\DecValTok{2}\SpecialCharTok{*}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\SpecialCharTok{/}\DecValTok{2}\NormalTok{)}\SpecialCharTok{\^{}}\DecValTok{2}\SpecialCharTok{/}\NormalTok{ni)}
+\NormalTok{lwri }\OtherTok{\textless{}{-}}\NormalTok{ L\_hati }\SpecialCharTok{{-}}\NormalTok{ s\_i}\SpecialCharTok{*} \FunctionTok{sqrt}\NormalTok{(vari)}
+\NormalTok{upri }\OtherTok{\textless{}{-}}\NormalTok{ L\_hati }\SpecialCharTok{+}\NormalTok{ s\_i}\SpecialCharTok{*} \FunctionTok{sqrt}\NormalTok{(vari)}
+\NormalTok{lwri }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.01865484
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{upri}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.2495952
+\end{verbatim}
+
+The corresponding 95\% CI is {[}0.01865484, 0.2495952{]}. Since it does
+not contain 0 and the lower bound of this interval is greater than 0, we
+conclude that the machines purchased 5 years ago differs from those
+purchased last year. Specifically, the amount of fill into the cartons
+of the machines purchased 5 years ago is larger than the amount of fill
+into the cartons of the machines purchased last year.
+
+\hypertarget{ii}{%
+\subsubsection{ii)}\label{ii}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{L\_hatii }\OtherTok{\textless{}{-}}\NormalTok{ ((mac.tab}\SpecialCharTok{$}\NormalTok{means[}\DecValTok{1}\NormalTok{]}\SpecialCharTok{+}\NormalTok{mac.tab}\SpecialCharTok{$}\NormalTok{means[}\DecValTok{2}\NormalTok{]}\SpecialCharTok{+}\NormalTok{mac.tab}\SpecialCharTok{$}\NormalTok{means[}\DecValTok{5}\NormalTok{]}\SpecialCharTok{+}\NormalTok{mac.tab}\SpecialCharTok{$}\NormalTok{means[}\DecValTok{6}\NormalTok{])}\SpecialCharTok{/}\DecValTok{4} 
+            \SpecialCharTok{{-}} \FunctionTok{sum}\NormalTok{(mac.tab}\SpecialCharTok{$}\NormalTok{means[}\DecValTok{3}\SpecialCharTok{:}\DecValTok{4}\NormalTok{])}\SpecialCharTok{/}\DecValTok{2}\NormalTok{)}
+\NormalTok{s\_ii }\OtherTok{\textless{}{-}} \FunctionTok{sqrt}\NormalTok{((}\DecValTok{6{-}1}\NormalTok{)}\SpecialCharTok{*}\FunctionTok{qf}\NormalTok{(}\FloatTok{0.95}\NormalTok{, }\DecValTok{5}\NormalTok{, }\DecValTok{114}\NormalTok{))}
+\NormalTok{varii }\OtherTok{\textless{}{-}}\NormalTok{ MSE}\SpecialCharTok{*}\NormalTok{(}\DecValTok{4}\SpecialCharTok{*}\NormalTok{(}\DecValTok{1}\SpecialCharTok{/}\DecValTok{4}\NormalTok{)}\SpecialCharTok{\^{}}\DecValTok{2}\SpecialCharTok{/}\NormalTok{ni}\SpecialCharTok{+}\DecValTok{2}\SpecialCharTok{*}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\SpecialCharTok{/}\DecValTok{2}\NormalTok{)}\SpecialCharTok{\^{}}\DecValTok{2}\SpecialCharTok{/}\NormalTok{ni)}
+\NormalTok{lwrii }\OtherTok{\textless{}{-}}\NormalTok{ L\_hatii }\SpecialCharTok{{-}}\NormalTok{ s\_ii}\SpecialCharTok{*} \FunctionTok{sqrt}\NormalTok{(varii)}
+\NormalTok{uprii }\OtherTok{\textless{}{-}}\NormalTok{ L\_hatii }\SpecialCharTok{+}\NormalTok{ s\_ii}\SpecialCharTok{*} \FunctionTok{sqrt}\NormalTok{(varii)}
+\NormalTok{lwrii }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] -0.3930952
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{uprii}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] -0.1621548
+\end{verbatim}
+
+The corresponding 95\% CI is {[}-0.3930952, -0.1621548{]}. Since it does
+not contain 0 and the upper bound of this interval is smaller than 0, we
+conclude that the machines purchase new differs from those purchased
+reconditioned. Specifically, the amount of fill into the cartons of the
+machines purchase new is smaller than the amount of fill into the
+cartons of the machines purchased reconditioned.
+
+\hypertarget{iii}{%
+\subsubsection{iii)}\label{iii}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{L\_hatiii }\OtherTok{\textless{}{-}}\NormalTok{ (}\FunctionTok{sum}\NormalTok{(mac.tab}\SpecialCharTok{$}\NormalTok{means[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{2}\NormalTok{])}\SpecialCharTok{/}\DecValTok{2} \SpecialCharTok{{-}} \FunctionTok{sum}\NormalTok{(mac.tab}\SpecialCharTok{$}\NormalTok{means[}\DecValTok{3}\SpecialCharTok{:}\DecValTok{4}\NormalTok{])}\SpecialCharTok{/}\DecValTok{2}\NormalTok{)}
+\NormalTok{s\_iii }\OtherTok{\textless{}{-}} \FunctionTok{sqrt}\NormalTok{((}\DecValTok{6{-}1}\NormalTok{)}\SpecialCharTok{*}\FunctionTok{qf}\NormalTok{(}\FloatTok{0.95}\NormalTok{, }\DecValTok{5}\NormalTok{, }\DecValTok{114}\NormalTok{)) }
+\NormalTok{variii }\OtherTok{\textless{}{-}}\NormalTok{ MSE}\SpecialCharTok{*}\NormalTok{(}\DecValTok{2}\SpecialCharTok{*}\NormalTok{(}\DecValTok{1}\SpecialCharTok{/}\DecValTok{2}\NormalTok{)}\SpecialCharTok{\^{}}\DecValTok{2}\SpecialCharTok{/}\NormalTok{ni}\SpecialCharTok{+}\DecValTok{2}\SpecialCharTok{*}\NormalTok{(}\SpecialCharTok{{-}}\DecValTok{1}\SpecialCharTok{/}\DecValTok{2}\NormalTok{)}\SpecialCharTok{\^{}}\DecValTok{2}\SpecialCharTok{/}\NormalTok{ni)  }
+\NormalTok{lwriii }\OtherTok{\textless{}{-}}\NormalTok{ L\_hatiii }\SpecialCharTok{{-}}\NormalTok{ s\_iii}\SpecialCharTok{*} \FunctionTok{sqrt}\NormalTok{(variii)}
+\NormalTok{upriii }\OtherTok{\textless{}{-}}\NormalTok{ L\_hatiii }\SpecialCharTok{+}\NormalTok{ s\_iii}\SpecialCharTok{*} \FunctionTok{sqrt}\NormalTok{(variii)}
+\NormalTok{lwriii }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] -0.4140835
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{upriii}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] -0.1474165
+\end{verbatim}
+
+The corresponding 95\% CI is {[}-0.4140835, -0.1474165{]}. Since it does
+not contain 0 and the upper bound of this interval is smaller than 0, we
+conclude that the machines purchase new differs from those purchased
+reconditioned. Specifically, the amount of fill into the cartons of the
+machines purchase new is smaller than the amount of fill into the
+cartons of the machines purchased reconditioned.
+
+\hypertarget{f}{%
+\subsubsection{(f)}\label{f}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(mac.aov, }\AttributeTok{which=}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Q3_files/figure-latex/unnamed-chunk-9-1.pdf}
+
+The Normality assuption is meet since the points generally fall (more or
+less) on a straight line.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(mac.aov, }\AttributeTok{which =} \DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Q3_files/figure-latex/unnamed-chunk-10-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mac.res }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{res=}\FunctionTok{residuals}\NormalTok{(mac.aov), }\AttributeTok{mach=}\NormalTok{mac.dat}\SpecialCharTok{$}\NormalTok{mach)}
+\FunctionTok{boxplot}\NormalTok{(res }\SpecialCharTok{\textasciitilde{}}\NormalTok{ mach, }\AttributeTok{data=}\NormalTok{mac.res, }\AttributeTok{xlab =} \StringTok{"Machines"}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"Residuals"}\NormalTok{, }\AttributeTok{mean=}\NormalTok{T)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Q3_files/figure-latex/unnamed-chunk-10-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tmpf }\OtherTok{\textless{}{-}} \FunctionTok{split}\NormalTok{(mac.res}\SpecialCharTok{$}\NormalTok{res, mac.res}\SpecialCharTok{$}\NormalTok{mach)}
+\NormalTok{tmpf }\OtherTok{\textless{}{-}} \FunctionTok{sapply}\NormalTok{(tmpf, var)}
+\NormalTok{tmpf2 }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\FunctionTok{model.tables}\NormalTok{(mac.aov, }\AttributeTok{type=}\StringTok{"means"}\NormalTok{)}\SpecialCharTok{$}\NormalTok{n[[}\DecValTok{1}\NormalTok{]])}
+\NormalTok{tmpf }\SpecialCharTok{*}\NormalTok{tmpf2}\SpecialCharTok{/}\NormalTok{(tmpf2}\DecValTok{{-}1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##          1          2          3          4          5          6 
+## 0.03901690 0.03618255 0.02853186 0.02878089 0.03140720 0.03168172
+\end{verbatim}
+
+Observing the plot of residuals v.s. fitted values, we find that the the
+extent of scatter of the residuals around 0 is similar for each factor
+level and the red line, which represents the residual is 0, is generally
+stable. Furthermore, observing the plot of side-by-side boxplots of
+residuals, we find that the extent of scatter of the residual around 0
+is generally similar for each factor level. Also, the IQR shown in the
+plot of the residuals around 0 for each factor level is generally the
+same. Observing the values obtained by the formula, we find that these
+six values are close. By observing the plot of residuals v.s. fitted
+values and side-by-side boxplots of residuals, these two plots show that
+the generally same extent of scatter of the residuals around 0 for each
+factor level. Also, the values obtained are close as shown in the
+result. Thus, the equality of error variance assumption is meet.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mac.res }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\AttributeTok{res=}\FunctionTok{residuals}\NormalTok{(mac.aov), }\AttributeTok{mach=}\NormalTok{mac.dat}\SpecialCharTok{$}\NormalTok{mach)}
+\NormalTok{mac.res}\SpecialCharTok{$}\NormalTok{mach }\OtherTok{\textless{}{-}} \FunctionTok{as.numeric}\NormalTok{(mac.res}\SpecialCharTok{$}\NormalTok{mach)}
+\FunctionTok{plot}\NormalTok{(mac.res}\SpecialCharTok{$}\NormalTok{mach, mac.res}\SpecialCharTok{$}\NormalTok{res, }\AttributeTok{type=}\StringTok{"n"}\NormalTok{, }\AttributeTok{xlab=}\StringTok{"Machines"}\NormalTok{, }\AttributeTok{ylab=}\StringTok{"Residuals"}\NormalTok{, }
+     \AttributeTok{xaxp=}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{6}\NormalTok{,}\DecValTok{5}\NormalTok{), }\AttributeTok{ylim=}\FunctionTok{c}\NormalTok{(}\SpecialCharTok{{-}}\FloatTok{0.65}\NormalTok{, }\FloatTok{0.65}\NormalTok{))}
+\NormalTok{mac.res }\OtherTok{\textless{}{-}} \FunctionTok{split}\NormalTok{(mac.res}\SpecialCharTok{$}\NormalTok{res, mac.res}\SpecialCharTok{$}\NormalTok{mach)}
+\FunctionTok{points}\NormalTok{(}\FunctionTok{rep}\NormalTok{(}\DecValTok{1}\NormalTok{, }\FunctionTok{length}\NormalTok{(mac.res[[}\DecValTok{1}\NormalTok{]])), mac.res[[}\DecValTok{1}\NormalTok{]], }\AttributeTok{col=}\DecValTok{1}\NormalTok{, }\AttributeTok{pch=}\DecValTok{20}\NormalTok{, }\AttributeTok{cex=}\FloatTok{0.75}\NormalTok{)}
+\FunctionTok{points}\NormalTok{(}\FunctionTok{rep}\NormalTok{(}\DecValTok{2}\NormalTok{, }\FunctionTok{length}\NormalTok{(mac.res[[}\DecValTok{2}\NormalTok{]])), mac.res[[}\DecValTok{2}\NormalTok{]], }\AttributeTok{col=}\DecValTok{1}\NormalTok{, }\AttributeTok{pch=}\DecValTok{20}\NormalTok{, }\AttributeTok{cex=}\FloatTok{0.75}\NormalTok{)}
+\FunctionTok{points}\NormalTok{(}\FunctionTok{rep}\NormalTok{(}\DecValTok{3}\NormalTok{, }\FunctionTok{length}\NormalTok{(mac.res[[}\DecValTok{3}\NormalTok{]])), mac.res[[}\DecValTok{3}\NormalTok{]], }\AttributeTok{col=}\DecValTok{1}\NormalTok{, }\AttributeTok{pch=}\DecValTok{20}\NormalTok{, }\AttributeTok{cex=}\FloatTok{0.75}\NormalTok{)}
+\FunctionTok{points}\NormalTok{(}\FunctionTok{rep}\NormalTok{(}\DecValTok{4}\NormalTok{, }\FunctionTok{length}\NormalTok{(mac.res[[}\DecValTok{4}\NormalTok{]])), mac.res[[}\DecValTok{4}\NormalTok{]], }\AttributeTok{col=}\DecValTok{1}\NormalTok{, }\AttributeTok{pch=}\DecValTok{20}\NormalTok{, }\AttributeTok{cex=}\FloatTok{0.75}\NormalTok{)}
+\FunctionTok{points}\NormalTok{(}\FunctionTok{rep}\NormalTok{(}\DecValTok{5}\NormalTok{, }\FunctionTok{length}\NormalTok{(mac.res[[}\DecValTok{5}\NormalTok{]])), mac.res[[}\DecValTok{5}\NormalTok{]], }\AttributeTok{col=}\DecValTok{1}\NormalTok{, }\AttributeTok{pch=}\DecValTok{20}\NormalTok{, }\AttributeTok{cex=}\FloatTok{0.75}\NormalTok{)}
+\FunctionTok{points}\NormalTok{(}\FunctionTok{rep}\NormalTok{(}\DecValTok{6}\NormalTok{, }\FunctionTok{length}\NormalTok{(mac.res[[}\DecValTok{6}\NormalTok{]])), mac.res[[}\DecValTok{6}\NormalTok{]], }\AttributeTok{col=}\DecValTok{1}\NormalTok{, }\AttributeTok{pch=}\DecValTok{20}\NormalTok{, }\AttributeTok{cex=}\FloatTok{0.75}\NormalTok{)}
+\NormalTok{tmp }\OtherTok{\textless{}{-}} \FunctionTok{qnorm}\NormalTok{(}\DecValTok{1} \SpecialCharTok{{-}} \FloatTok{0.05}\SpecialCharTok{/}\NormalTok{(}\DecValTok{2}\SpecialCharTok{*}\DecValTok{120}\NormalTok{), }\AttributeTok{sd=}\FunctionTok{sqrt}\NormalTok{(}\FunctionTok{summary}\NormalTok{(mac.aov)[[}\DecValTok{1}\NormalTok{]][}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{] }\SpecialCharTok{*}\NormalTok{ (}\DecValTok{1{-}1}\SpecialCharTok{/}\DecValTok{20}\NormalTok{)))}
+\FunctionTok{abline}\NormalTok{(}\AttributeTok{h=}\NormalTok{tmp, }\AttributeTok{lty=}\DecValTok{2}\NormalTok{)}
+\FunctionTok{abline}\NormalTok{(}\AttributeTok{h=}\SpecialCharTok{{-}}\NormalTok{tmp, }\AttributeTok{lty=}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Q3_files/figure-latex/unnamed-chunk-11-1.pdf}
+
+Since there is no point outside these two dashed lines, we conclude that
+there is no outliers for this assumption. In conclusion, all assumptions
+of the ANOVA models are satisfied.
+
+\end{document}

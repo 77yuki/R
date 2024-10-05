@@ -1,0 +1,147 @@
+---
+title: "A4Q4"
+author: "Yuqi Gu"
+date: "7/23/2024"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### a.i)
+```{r}
+frogs.dat <- read.csv("~/Desktop/STAT 332/Assignments/A4/frogs.csv")
+
+frogs.dat$thickness <- as.factor(frogs.dat$thickness)
+frogs.dat$dimensions <- as.factor(frogs.dat$dimensions)
+frogs.dat$colour <- as.factor(frogs.dat$colour)
+frogs.dat$person <- as.factor(frogs.dat$person)
+
+frogs.aov <- aov(jump~thickness+colour + thickness:colour, data = frogs.dat)
+summary(frogs.aov)
+
+qf(0.95, 2, 174) #Test for interaction
+qf(0.95, 2, 174) #Test for main effects of paper thickness
+qf(0.95, 1, 174) #Test for main effects of colour
+```
+
+Since 0.694 < 3.047906 and the corresponding p-value is 0.501, larger than 0.05, we do not reject the null hypothesis. Consequently, the interactions between colour and paper thickness are not significant for jump distance. Thus, the jump distance stay the same if the interactions between colour and paper thickness are different. Since 10.995 > 3.047906 and the corresponding p-value is 3.19e-05, which is much smaller than 0.05, we reject H0. Thus, we conclude that the effect of paper thickness on jump distance is significantly important. Thus, at the 5% level, the jump distance differs if the paper thickness are different. Since 1.081 < 3.895458 and the corresponding p-value is 0.300, larger than 0.05, we do not reject H0. Thus, we conclude that the effect of colour on jump distance is not significantly important. Thus, at the 5% level, the jump distance stay the same if the paper colours are different.
+
+### a.ii)
+```{r}
+TukeyHSD(frogs.aov, "thickness", conf.level = 0.95)
+plot(TukeyHSD(frogs.aov, "thickness"))
+```
+Cardstock jumps the furthest. Since the difference between photocopy-cardstock is -26.180000, the mean jump distance of photocopy is 26.18 cm shorters than that of cardstock. Since the difference between resume-cardstock is -23.766667, the mean jump distance of resume is 23.766667 cm shorters than that of cardstock. Since the difference between resume-photocopy is 2.413333, the mean jump distance of resume is 2.413333 cm longers than that of photocopy.
+Moreover, the confidence intervals for photocopy-cardstock and resume-cardstock does not contain 0 and both of them are negative. This means that cardstock jumps further than photocopy and resume. The confidence interval for resume-photocopy contains 0, which means that the jump distance of resume and photocopy do not have differences. These are also shown in the plot of 95% Confidence interval of differences in mean levels of thickness.
+
+### a.iii)
+```{r}
+tmp <- model.tables(frogs.aov,type = "means")
+tmpthickness <- tmp[[1]][[2]]
+
+thickness.tab <- data.frame(names (tmp$tables[[2]]), c(tmp$tables[[2]]) )
+colnames(thickness.tab) <- c(names (tmp$tables[2]), "means")
+rownames(thickness.tab)<-NULL
+
+MSE <- 1142
+J <- 2
+n_0 <- 180/(3*2)
+lh <- c(75, 97, 181) 
+ci <- lh-mean(lh)
+L_hat <- thickness.tab$means[1]*ci[3]+thickness.tab$means[2]*ci[1]+thickness.tab$means[3]*ci[2]
+var <- MSE*((ci[1])^2/(J*n_0)+(ci[2])^2/(J*n_0)+(ci[3])^2/(J*n_0))
+
+t <- qt(0.975, 174)
+lwr <- L_hat - t*sqrt(var)
+upr <- L_hat + t*sqrt(var)
+lwr
+upr
+```
+The corresponding 95% CI is [926.9865, 2289.396]. It does not contain 0 and so we reject the null hypothesis that there is no linear relationship in paper thickness. Thus, there is a linear relationship in paper thickness.
+
+### a.iv)
+```{r}
+plot(frogs.aov, which = 2)
+plot(frogs.aov, which = 1)
+```
+Looking at the QQ plot, the middle of the observations is close to a straight line but the points on the two sides are not perfectly close to the straight line. Thus, the points do not fall (more a less) on a straight line generally. Thus, the assumption of normality is not met perfectly.
+
+Looking at the plot of residuals versus fitted values, since about half the points are above the red line at 0 and the other half are below it, the assumption E($\epsilon_{ijk}$) = 0 appears respected. The equal variance assumption is also met generally.
+```{r}
+frogs.res <- data.frame(res=residuals(frogs.aov), fitted = fitted(frogs.aov))
+
+mse <- sum(residuals(frogs.aov)^2/frogs.aov$df)
+tmp <- qnorm(1-0.05/(2*180), sd = sqrt(mse*(1-1/(180/3/2))))
+
+plot(res~fitted, data = frogs.res, xlab="Fitted" , ylab = "Residuals", 
+     ylim = c(-tmp, tmp))
+abline(h=0, col=2)
+abline(h=tmp, lty=2)
+abline(h=-tmp, lty=2)
+```
+There is one outlier by observing the plot above. Specifically, this outlier is above 120.8025, which is the upper dashed line in the plot.
+
+
+### b.i)
+
+```{r}
+frogs.aovii <- aov(jump~thickness+dimensions + thickness:dimensions, data = frogs.dat)
+summary(frogs.aovii)
+
+qf(0.95, 4, 171) #Test for interaction
+qf(0.95, 2, 171) #Test for main effects of paper thickness
+qf(0.95, 2, 171) #Test for main effects of dimensions
+```
+
+Since 14.95 > 2.424502 and the corresponding p-value is 1.70e-10, which is much smaller than 0.05, we reject the null hypothesis. Consequently, the interactions between dimensions and paper thickness are significant for jump distance. Thus, the jump distance differs if the interactions between dimensions and paper thickness are different. Since 27.38 > 3.048833 and the corresponding p-value is 4.84e-11, which is much smaller than 0.05, we reject H0. Thus, we conclude that the effect of paper thickness on jump distance is significantly important. Thus, at the 5% level, the jump distance differs if the paper thickness are different. Since 104.32 > 3.048833 and the corresponding p-value is < 2e-16, which is much smaller than 0.05, we reject H0. Thus, we conclude that the effect of paper dimensions on jump distance is significantly important. Thus, at the 5% level, the jump distance differs if the paper dimensions are different. 
+
+### b.ii)
+```{r}
+TukeyHSD(frogs.aovii, conf.level = 0.95)
+plot(TukeyHSD(frogs.aovii, which = "thickness:dimensions"))
+```
+
+### b.iii)
+Based on the result of part b.ii), cardstock:10cm and photocopy:10cm are the groups jump the furthest. By observing the differences of the mean jump distances of photocopy:10cm-cardstock:10cm, resume:10cm-cardstock:10cm, cardstock:15cm-cardstock:10cm, photocopy:15cm-cardstock:10cm, resume:15cm-cardstock:10cm, cardstock:20cm-cardstock:10cm, photocopy:20cm-cardstock:10cm, resume:20cm-cardstock:10cm, we find that all of them are negative. These indicate that the mean jump distance of the group of cardstock:10cm is larger than the other 8 groups. However, the confidence intervals of the second to the eighth are negative and do not contain 0 but the confidence interval in the first line contains 0 and p-value is 0.8176589, which is much larger than 0.05. Thus, the jump distance of cardstock:10cm and photocopy:10cm should not have any differences. Also, by observing the differences, confidence intervals of resume:10cm-photocopy:10cm, cardstock:15cm-photocopy, photocopy:15cm-photocopy:10cm, resume:15cm-photocopy:10cm, cardstock:20cm-photocopy:10cm, photocopy:20cm-photocopy:10cm, resume:20cm-photocopy:10cm, we find that all of them are negative. Thus, photocopy:10cm jumps further than these seven groups. Thus, the jump distance of cardstock:10cm and photocopy:10cm should not have any differences and they both jump further than the other seven groups.
+
+
+### c.i)
+```{r}
+frogs.aoviii <- aov(jump~thickness+dimensions + thickness:dimensions + person, data = frogs.dat)
+summary(frogs.aoviii)
+
+qf(0.95, 4, 170) #Test for interaction
+qf(0.95, 2, 170) #Test for main effects of paper thickness
+qf(0.95, 2, 170) #Test for main effects of dimensions
+```
+
+After consider person as a blocking factor, we find that since 16.36 > 2.424815 and the corresponding p-value is 2.35e-11, which is much smaller than 0.05, we reject the null hypothesis. Consequently, the interactions between dimensions and paper thickness are significant for jump distance. Thus, the jump distance differs if the interactions between dimensions and paper thickness are different. Since 29.96 > 3.049149 and the corresponding p-value is 7.14e-12, which is much smaller than 0.05, we reject H0. Thus, we conclude that the effect of paper thickness on jump distance is significantly important. Thus, at the 5% level, the jump distance differs if the paper thickness are different. Since 114.17 > 3.049149 and the corresponding p-value is < 2e-16, which is much smaller than 0.05, we reject H0. Thus, we conclude that the effect of paper dimensions on jump distance is significantly important. Thus, at the 5% level, the jump distance differs if the paper dimensions are different. 
+
+Thus, they are the same as in b.i).
+
+
+### c.ii)
+```{r}
+tmpiii <- model.tables(frogs.aoviii, type="mean")
+tmpperson <- tmpiii[[1]][[4]]
+
+person.tab <- data.frame(names (tmpiii$tables[[4]]), c(tmpiii$tables[[4]]) )
+colnames(person.tab) <- c(names (tmpiii$tables[4]), "means")
+rownames(person.tab)<-NULL
+
+MSE <- 419
+n <- 90
+D_hat <- person.tab$means[1]-person.tab$means[2]
+var <- 2*MSE/n
+
+tiii <- qt(0.975, 170)
+lwriii <- D_hat - tiii*sqrt(var)
+upriii <- D_hat + tiii*sqrt(var)
+lwriii
+upriii
+```
+The corresponding 95% CI is [-18.65687,-6.609796]. Because it does not contain 0 and the upper bound is negative, we conclude that Christian is not better than Michelle at making the paper frogs jump further.

@@ -1,0 +1,148 @@
+---
+title: "A3Q3"
+author: "Yuqi Gu"
+date: "7/12/2024"
+output:
+  html_document: default
+  pdf_document: default
+header-includes: 
+- usepackage{multirow}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### (a)
+```{r}
+mac.dat <- read.table("~/Desktop/STAT 332/Assignments/A3/machines.txt")
+names(mac.dat) <- c("devi", "mach")
+mac.dat$mach <- as.factor(mac.dat$mach)
+mac.aov <- aov(devi ~ mach, data = mac.dat)
+summary(mac.aov)
+```
+
+
+### (b)
+```{r}
+qf(0.95, 5, 114)
+```
+
+
+### (c)
+```{r}
+TukeyHSD(mac.aov)
+```
+
+
+### (d)
+```{r}
+mac.bonf <- TukeyHSD(mac.aov) [[1]]
+mac.bonf <- mac.bonf[, -dim(mac.bonf)]
+mac.bonf <- as.data.frame(mac.bonf)
+mac.bonf$std <- (mac.bonf$upr - mac.bonf$lwr)/2
+mac.bonf$std <- mac.bonf$std*sqrt(2)/qtukey(0.95, length(mac.aov$xlevels[[1]]), mac.aov$df)
+
+tmp <- qt(1-0.05/(2*6*(6-1)/2), mac.aov$df)
+mac.bonf$lwr <- mac.bonf$diff-tmp*mac.bonf$std
+mac.bonf$upr <- mac.bonf$diff+tmp*mac.bonf$std
+mac.bonf
+```
+
+
+### (e)
+```{r}
+tmpe <- model.tables(mac.aov, type="means")
+mac.tab <- data.frame(names(tmpe$tables[[2]]), c(tmpe$tables[[2]]), tmpe$n[[1]])
+colnames(mac.tab) <- c(names(tmpe$tables[2]),"means","ni")
+mac.tab
+```
+
+### i)
+```{r}
+MSE <- 0.031
+ni <- 20
+L_hati <- sum(mac.tab$means[1:4])/4 - sum(mac.tab$means[5:6])/2
+s_i <- sqrt((6-1)*qf(0.95, 5, 114))
+vari <- MSE*(4*(1/4)^2/ni+2*(-1/2)^2/ni)
+lwri <- L_hati - s_i* sqrt(vari)
+upri <- L_hati + s_i* sqrt(vari)
+lwri 
+upri
+```
+The corresponding 95% CI is [0.01865484, 0.2495952]. Since it does not contain 0 and the lower bound of this interval is greater than 0, we conclude that the machines purchased 5 years ago differs from those purchased last year. Specifically, the amount of fill into the cartons of the machines purchased 5 years ago is larger than the amount of fill into the cartons of the machines purchased last year.
+
+
+### ii)
+```{r}
+L_hatii <- ((mac.tab$means[1]+mac.tab$means[2]+mac.tab$means[5]+mac.tab$means[6])/4 
+            - sum(mac.tab$means[3:4])/2)
+s_ii <- sqrt((6-1)*qf(0.95, 5, 114))
+varii <- MSE*(4*(1/4)^2/ni+2*(-1/2)^2/ni)
+lwrii <- L_hatii - s_ii* sqrt(varii)
+uprii <- L_hatii + s_ii* sqrt(varii)
+lwrii 
+uprii
+```
+The corresponding 95% CI is [-0.3930952, -0.1621548]. Since it does not contain 0 and the upper bound of this interval is smaller than 0, we conclude that the machines purchase new differs from those purchased reconditioned. Specifically, the amount of fill into the cartons of the machines purchase new is smaller than the amount of fill into the cartons of the machines purchased reconditioned.
+
+### iii)
+```{r}
+L_hatiii <- (sum(mac.tab$means[1:2])/2 - sum(mac.tab$means[3:4])/2)
+s_iii <- sqrt((6-1)*qf(0.95, 5, 114)) 
+variii <- MSE*(2*(1/2)^2/ni+2*(-1/2)^2/ni)  
+lwriii <- L_hatiii - s_iii* sqrt(variii)
+upriii <- L_hatiii + s_iii* sqrt(variii)
+lwriii 
+upriii
+```
+The corresponding 95% CI is [-0.4140835, -0.1474165]. Since it does not contain 0 and the upper bound of this interval is smaller than 0, we conclude that the machines purchase new differs from those purchased reconditioned. Specifically, the amount of fill into the cartons of the machines purchase new is smaller than the amount of fill into the cartons of the machines purchased reconditioned. 
+
+
+### (f)
+```{r}
+plot(mac.aov, which=2)
+```
+
+The Normality assuption is meet since the points generally fall (more or less) on a straight line.
+
+```{r}
+plot(mac.aov, which = 1)
+mac.res <- data.frame(res=residuals(mac.aov), mach=mac.dat$mach)
+boxplot(res ~ mach, data=mac.res, xlab = "Machines", ylab = "Residuals", mean=T)
+tmpf <- split(mac.res$res, mac.res$mach)
+tmpf <- sapply(tmpf, var)
+tmpf
+```
+Observing the plot of residuals v.s. fitted values, we find that the the extent of scatter of the residuals around 0 is similar for each factor level and the red line, which represents the residual is 0, is generally stable.
+Furthermore, observing the plot of side-by-side boxplots of residuals, we find that the extent of scatter of the residual around 0 is generally similar for each factor level. Also, the IQR shown in the plot of the residuals around 0 for each factor level is generally the same.
+Observing the values obtained by the formula, we find that these six values are close. Since $n_{i}$ is 20 for all i = 1,2,3,4,5,6, we only need to check $\hat{V}(e_{1j}) \approx \hat{V}(e_{2j}) \approx \hat{V}(e_{3j}) \approx \hat{V}(e_{4j}) \approx \hat{V}(e_{5j}) \approx \hat{V}(e_{6j})$.
+By observing the plot of residuals v.s. fitted values and side-by-side boxplots of residuals, these two plots show that the generally same extent of scatter of the residuals around 0 for each factor level. Also, the values of the $\hat{V}(e_{ij})$ for i = 1,2,3,4,5,6 obtained are close as shown in the result. Thus, the equality of error variance assumption is meet.
+
+
+```{r}
+mac.res <- data.frame(res=residuals(mac.aov), mach=mac.dat$mach)
+mac.res$mach <- as.numeric(mac.res$mach)
+plot(mac.res$mach, mac.res$res, type="n", xlab="Machines", ylab="Residuals", 
+     xaxp=c(1,6,5), ylim=c(-0.65, 0.65))
+mac.res <- split(mac.res$res, mac.res$mach)
+points(rep(1, length(mac.res[[1]])), mac.res[[1]], col=1, pch=20, cex=0.75)
+points(rep(2, length(mac.res[[2]])), mac.res[[2]], col=1, pch=20, cex=0.75)
+points(rep(3, length(mac.res[[3]])), mac.res[[3]], col=1, pch=20, cex=0.75)
+points(rep(4, length(mac.res[[4]])), mac.res[[4]], col=1, pch=20, cex=0.75)
+points(rep(5, length(mac.res[[5]])), mac.res[[5]], col=1, pch=20, cex=0.75)
+points(rep(6, length(mac.res[[6]])), mac.res[[6]], col=1, pch=20, cex=0.75)
+tmp <- qnorm(1 - 0.05/(2*120), sd=sqrt(summary(mac.aov)[[1]][2,3] * (1-1/20)))
+abline(h=tmp, lty=2)
+abline(h=-tmp, lty=2)
+```
+
+Since there is no point outside these two dashed lines, i.e., there is no point above 0.6053712 or below -0.6053712, we conclude that there is no outliers for this assumption.
+In conclusion, all assumptions of the ANOVA models are satisfied.
+
+
+
+
+
+
+
