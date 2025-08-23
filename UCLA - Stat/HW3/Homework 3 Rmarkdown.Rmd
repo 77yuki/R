@@ -1,0 +1,75 @@
+---
+header-includes:
+- \usepackage{amssymb, amsmath, amsthm}
+- \usepackage{tabu}
+- \newcommand{\E}{\mathbb{E}}
+- \newcommand{\var}{{\rm Var}}
+- \newcommand{\N}{\mathcal{N}}
+output: pdf_document
+---
+
+\noindent \begin{tabu} to \textwidth {@{}X[4 l] @{}X[r]}
+  \textbf{Homework 3}           & \\ 
+  \textbf{MSBA 400: Statistical Foundations for Data Analytics}   & \\ 
+  \textbf{Professor Rossi}         & 
+\end{tabu}
+
+\bigskip
+### Question 1 : Prediction from Multiple Regressions
+
+### Q1, part A
+
+Run the multiple regression of `Sales` on `p1` and `p2` using the dataset, `multi`.
+
+### Q1, part B
+
+Suppose we wish to use the regression from part A to estimate sales of this firm's product with, `p1` = $7.5.  To make predictions from the multiple regression, we will have to predict what p2 will be given that `p1` =$7.5.    
+
+Explain why setting `p2=mean(p2)` would be a bad choice. Be specific and comment on why this is true for this particular case (value of `p1).
+
+### Q1, part C
+
+Use a regression of `p2` on `p1` to predict what `p2` would be given that `p1` = $7.5. 
+
+### Q1, part D
+
+Use the predicted value of `p2` from part C, to predict `Sales`.  Show that this is the same predicted value of sales as you would get from the simple regression of `Sales` on `p1`.  Explain why this must be true.
+
+### Question 2: Interactions
+
+An interaction term in a regression is formed by taking the product of two independent or predictor variables as in:
+
+$$Y_i = \beta_0 + \beta_1X1_i + \beta_2X2_i + \beta_3 X1_i*X2_i+\varepsilon_i $$
+This term has a non-linear effect, which allows the effect of variable $X1$ to be moderated by the level of $X2$. We can take the partial derivative of the conditional mean function to see this:
+$$ \frac{\partial}{\partial X1}E[Y|X1,X2] = \beta_1 + \beta3X2 $$
+
+Return to the regression in Chapter 6 of `log(emv)` on `luxury`, `sporty` and add the interaction term `luxury*sporty`.
+
+### Q2, part A
+
+Compute the change in `emv` we would expect to see if sporty increased by .1 units, holding luxury constant at .30 units
+
+### Q2, part B
+
+Compute the change in `emv` we would expect to see if sporty was increased by .1 units, holding luxury constant at .70 units.
+
+### Q2, part C
+
+Why are the answers different in part A and part B?  Does the interaction term make intuitive sense to you? Why?
+
+### Question 3: More on ggplot2 and regression planes
+
+The classic dataset, `diamonds`, (you must load the `ggplot2` package to access this data) has about 50,000 prices of diamonds along with weight (`carat`) and quality of cut (`cut`).
+
+1. Use ggplot2 to visualize the relationship between price and carat and cut. 'price' is the dependent variable. Consider both the log() and sqrt() transformation of price. 
+
+2. Run a regression of your preferred specification.  Perform residual diagnostics. What do you conclude from your regression diagnostic plots of residuals vs. fitted and residuals vs. carat? 
+
+note: `cut` is a special type of variable called an ordered factor in R. For ease of interpretation, convert the ordered factor into a "regular" or non-ordinal factor.
+
+``` {r}
+library(ggplot2)
+data(diamonds)
+cutf=as.character(diamonds$cut)
+cutf=as.factor(cutf) 
+```

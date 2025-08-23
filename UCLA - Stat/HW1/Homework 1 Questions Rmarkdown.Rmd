@@ -1,0 +1,147 @@
+---
+header-includes:
+- \usepackage{amssymb, amsmath, amsthm}
+- \usepackage{tabu}
+- \newcommand{\E}{\mathbb{E}}
+- \newcommand{\var}{{\rm Var}}
+- \newcommand{\N}{\mathcal{N}}
+output: pdf_document
+---
+
+\noindent \begin{tabu} to \textwidth {@{}X[4 l] @{}X[r]}
+  \textbf{Homework 1}           & \\ 
+  \textbf{MSBA 400: Statistical Foundations for Data Analytics}   & \\ 
+  \textbf{Professor Rossi}         & 
+\end{tabu}
+
+\bigskip
+### Question 1
+
+Review the basics of summation notation and covariance formulas. Show that:
+
+a. $\sum_{i=1}^N (Y_i - \bar{Y}) = 0$
+b. $\sum_{i=1}^N (X_i - \bar{X})(Y_i - \bar{Y}) = \sum_{i=1}^N (X_i - \bar{X})Y_i$
+
+### Question 2
+
+Define both and explain the difference between (a) the expectation of a random variable and (b) the sample average?
+
+### Question 3
+
+a. Describe the Central Limit Theorem as simply as you can.
+b. Let $X \sim \textrm{Gamma}(\alpha=2,\ \beta=2)$. For the Gamma distribution, $\alpha$ is often called the "shape" parameter, $\beta$ is often called the "scale" parameter, and the $\mathbb{E}[X]=\alpha\beta$. Plot the density of $X$ and describe what you see. You may find the functions `dgamma()` or `curve()` to be helpful.
+c. Let $n$ be the number of draws from that distribution in one sample and $r$ be the number of times we repeat the process of sampling from that distribution. Draw an iid sample of size $n=10$ from the Gamma(2,2) distribution and calculate the sample average; call this $\bar{X}_n^{(1)}$. Repeat this process $r$ times where $r=1000$ so that you have $\bar{X}_n^{(1)}, \dots, \bar{X}_n^{(r)}$. Plot a histogram of these $r$ values and describe what you see. This is the sampling distribution of $\bar{X}_{(n)}$.
+d. Repeat part (c) but with $n=100$.  Be sure to produce and describe the histogram. Explain how this illustrates the CLT at work. 
+
+
+### Question 4
+
+The normal distribution is often said to have "thin tails" relative to other distributions like the $t$-distribution. Use random number generation in R to illustrate that a $\N(0,1)$ distribution has much thinner tails than a $t$-distribution with 5 degrees of freedom. 
+
+A few coding hints: `rnorm()` and `rt()` are the functions in R to draw from a normal distribution and a $t$-distribution. The option `add=TRUE` for the `hist()` command can be used to overlay a second histogram on top of another histogram, and after installing the `scales` package, you can make a blue histogram 50\% transparent with the option `col=scales::alpha("blue",0.5)`. Alternatively, you can put two plots side-by-side by first setting the plotting parameter with the code `par(mfrow=c(1,2))`. You can set the range of the x-axis to go from -5 to 5 with the plotting option `xlim=c(-5,5)`.
+
+### Question 5
+
+a. From the Vanguard dataset, compute the standard error of the mean for the `VFIAX` index fund return.
+b.  For this fund, the mean and the standard error of the mean are almost exactly the same. Why is this a problem for a financial analyst who wants to assess the performance of this fund?
+c.  Calculate the size of the sample which would be required to reduce the standard error of the mean to 1/10th of the size of the mean return.
+
+
+### Question 6 : Subsetting Observations
+
+We have seen that R has very powerful capabilities to find observations with specific characteristics. The `[<select rows>,<select columns>]` notation is used to subset a data frame. For example, `cars[1:100,]` selects the first 100 observations (rows) of the  `cars` data frame. 
+
+The most powerful subsetting is done by using what are called logical expressions. A logical expression is an expression that is either TRUE or FALSE.  A very simple example would be
+
+```{r}
+var = "Ford"     # 1
+var == "Ford"    # 2
+var != "Ford"    # 3
+```
+In statement #1, we are assigning the value of "Ford" to the R object called `var`. This makes `var` a character vector with only one element.  
+In statement #2, we are comparing what is stored in `var` to the string "Ford", `==` is the "equals" comparison operator. If the contents of `var` is equal to "Ford", then R will produce the result `TRUE`.  
+In statement #3, we use the "not equals" comparison operator.  #3 will return `FALSE`. 
+
+*Logical Comparison Operators*  
+
+Operator  | Meaning
+:-------: | -------:
+ `==`     | equals 
+ `!=`     | not equal
+ `>`      | greater than
+ `<`      | less than
+ `>=`     | greater than or equal to
+ `<=`     | less than or equal to
+
+
+These ideas can be extended to the vectors. 
+```{r}
+vec=c("BMW","Cadillac","Audi")
+vec == "BMW"
+vec != "BMW"
+```
+
+What does this have to do with selecting rows in a data frame (or subsetting our data)? We can use a vector that only contains "TRUE"  or "FALSE" to select rows.  Let's look at a simple example.
+```{r}
+library(DataAnalytics) 
+data(mvehicles)
+cars=mvehicles[mvehicles$bodytype != "Truck",] 
+cars_f4 = head(cars,n=4)
+cars_f4[,1:3]                                  # show only the first three columns to save space in the output
+cars_f4[c(FALSE,TRUE,FALSE,TRUE),1:3]       
+```
+
+The last statement in the code block above has selected the second and fourth rows. This looks like a much more cumbersome way to do it than just `cars_f4[c(2,4),]`.  However, the power comes when you try to select on the values of some of the variables in the data frame which describe which obseration is which.
+
+As we saw, if we want to select all of the Fords in the data, we can simply write
+```{r}
+fords = cars[cars$make == "Ford",]
+```
+We now know how this works. `cars$make == "Ford"` creates a vector with TRUE values marking any observation where `make == "Ford"` and FALSE when not.  
+
+### Q6, Part A
+1. Display the contents of the first 50 elements of the vector, `cars$make == "Ford"`, to verify that it is a logical vector.  
+2. Subset the `cars` data frame by a two step process to only the "Ford" make.  That is, create the row selection logical vector in one statement and select observations from the `cars` data frame in the second. 
+3. How many Kia observations are there in the `cars` data frame? hint: `nrow()` tells you how many rows are in a data frame.
+4. How many cars are have a price (emv) that is greater than $100,000? 
+
+We can also couple two logical expressions together using AND `&` or OR `|`.  For example, if we want to select all rows with either Kia or Hyundai; we would say `cars[cars$make == "Kia" | cars$make == "Hyundai",]`.
+
+### Q6, part B
+
+1. What is the average sales for all cars made in Europe with price above $75,000?
+
+In many data sets, there are long text fields whcih describe an observation.  These fields are not formatted in any way and so it is difficult to use simple comparison methods to fetch observations.  However, we can use the power of something called regular expressions to find any observations for which a given variable contains some character pattern.  Regular expressions are very complicated to use in generality but we can get a lot of use out of a very simple expression.
+
+The `style` variable in `cars` is a general text description variable,  We can find the rows for each `style` contains any string by using the command `grepl("string",column,ignore.case=TRUE)`. For example, `grepl("hybrid",cars$style,ignore.case=TRUE)` creates a logical vector (TRUE or FALSE) to help select rows corresponding to hybrids.  `cars[grepl("hybrid",cars$style,ignore.case=TRUE),]` will fetch only hybrids.
+
+### Q 6, part C
+
+1. How many four door vehicles are in cars?
+2. How many four door sedans are in cars?
+ 
+### Question 7 : Sales and Price relationships
+
+
+In this question, use `cars` only.
+
+### Q7, part A
+Plot price (horizontal axis) vs. sales (vertical axis) for cars with bodytype == "Sedan". What is the problem with displaying the data in this manner?
+
+### Q7, part B
+
+Plot log(price) vs. log(sales) for the same subset of observations as in part 1.  How has this improved the visualization of this data? Are there any disadvantages of taking the log transformation?  A very similar but less "violent" tranformation is the sqrt transformation.  Try the sqrt transformation.  Is this useful? 
+
+### Q7, part C
+
+Economists will tell you that as price increase sales will decreases, all other things being equal.  Does this plot support this conclusion?
+
+### Q7, part D
+Fit a regression model to this data. That is, "regress" log(sales) on log(price) (log(sales) is Y or the dependent variable). Plot the fitted line on top of the scatterplot using `abline`.  
+
+### Q7, part E
+Predict sales for price = $45,000 using the model fit in part D). Don't forget to transform back to unit sales by using the `exp()` function. 
+
+
+
+

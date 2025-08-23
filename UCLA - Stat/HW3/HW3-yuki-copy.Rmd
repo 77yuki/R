@@ -1,0 +1,194 @@
+---
+title: "HW3-final"
+author: "Yuqi Gu"
+date: '2024-11-16'
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Question 1 : Prediction from Multiple Regressions
+
+### Q1, part A
+
+```{r}
+library(DataAnalytics) 
+data(multi)
+
+mullrm <- lm(Sales~p1 + p2, data = multi)
+summary(mullrm)
+```
+
+### Q1, part B
+
+```{r}
+mean(multi$p2)
+
+correlation_p1_p2 <- cor(multi$p1, multi$p2)
+correlation_sales_p2 <- cor(multi$Sales, multi$p2)
+correlation_sales_p1 <- cor(multi$Sales, multi$p1)
+
+correlation_p1_p2
+correlation_sales_p2
+correlation_sales_p1
+
+predict(mullrm, new=data.frame(p1=7.5, p2=mean(multi$p2)), interval='prediction')
+```
+
+It is possible that there is correlation between p1 and p2. Based on the correlation between p1 and p2 calculated above, which is 0.7833345. There is relationship between p1 and p2. If we hope to use p1=\$7.5 to estimate sales of this firm’s product, it is indispensable for us to find a suitable p2 instead of directly using the mean of p2. If the correlation between p1 and p2 exists and it is important, the mean of p2 might not be the particular p2 that we expect to use when p1 is \$7.5. If we use the mean of p2 to make the estimate of sales of the firm's product, this might cause inaccuracies of the estimate because we disregard the relationship between p1 and p2. Moreover, the prediction accuracy is reduced since the effects of both p1 and p2 on sales is not considered. Furthermore, the mean of p2 is calculated based on all the values of p2 but it doesn't consider the specific case that p1 is \$7.5. It is not reasonable to set p2=mean(p2) in this case. If p2 generally changes with the change of p1, setting p2=mean(p2) would ignore the dependencies or potential correlations between p1 and p2, which cause the estimate of sales inaccurate and not convincing.
+
+Moreover, the correlation between sales and p2 is large and there is also correlation between p1 and sales. The effect of only p2 on sales is significant and we could not ignore it. Also, considering the prediction interval as shown above, we find that the prediction interval is pretty wide and the standard error is large. This indicates that the prediction is not accurate. Thus, setting p2=mean(p2) is a bad choice.
+
+### Q1, part C
+
+```{r}
+p2_p1model <- lm(p2~p1, data = multi)
+summary(p2_p1model)
+predp2 <- predict(p2_p1model, new=data.frame(p1=7.5))
+predp2
+```
+
+### Q1, part D
+
+```{r}
+predict(mullrm, new=data.frame(p1=7.5, p2=predp2))
+```
+
+By using the predicted value of p2 from part C and p1 = \$7.5, to predict sales, we get the result is 689.0118.
+
+```{r}
+slrm <- lm(Sales~p1, data = multi)
+summary(slrm)
+predict(slrm, new=data.frame(p1=7.5))
+```
+
+These two results are exactly the same is because the value of p2 we used in multiple regression model is based on p1. Specifically, in part C, we construct a regression model between p2 and p1 and so p2 is linearly dependent on p1. When we put the predicated value of p2 based on p1 back into the multiple regression model we construct in part A and use it to make estimate of the value of sales, this becomes the a simple function of p1 for sales. This happens since p2 doesn't independently provide any additional information about Sales beyond what is already captured by p1, given the p2 we used is a function of p1.
+
+If we hope to represent the process in formulas, From the code `summary(mullrm)`, we get $sales = 115.717-97.657\times p1 + 108.8 \times p2$. From the code `summary(p2_p1model)`, we get $p2 = 0.8773 + 1.4832 \times p1$. From the code `summary(slrm)`, we get $sales = 211.16 + 63.71 \times p1$. After plugging $p2 = 0.8773 + 1.4832 \times p1$ into $sales = 115.717-97.657\times p1 + 108.8 \times p2$, we have 
+
+$$
+\begin{aligned}
+ sales &= 115.717-97.657\times p1 + 108.8 \times p2 \\
+       &= 115.717-97.657\times p1 + 108.8 \times (0.8773 + 1.4832 \times p1) \\ 
+       &= 211.16 + 63.71\times p1
+\end{aligned}
+$$ \newpage
+
+### Question 2: Interactions
+
+### Q2, part A
+
+```{r}
+data(mvehicles)
+cars=mvehicles[mvehicles$bodytype != "Truck",]
+
+outslr = lm(log(emv)~sporty+luxury+sporty:luxury, data = cars)
+lmSumm(outslr)
+
+b1 <- outslr$coef["sporty"]
+b3 <- outslr$coef["sporty:luxury"]
+
+lux_constant1 <- 0.3
+
+change_in_logemv1 <- (b1 + b3 * lux_constant1) * 0.1
+cat("Change in log(emv) for a 0.1 increase in sporty, holding luxury constant at .30 units:", change_in_logemv1, '\n')
+```
+
+To get the formula for the change in emv, suppose emv2 is the emv after change due to 0.1 increase in sporty and emv1 is the emv before change and delta is the change in log(emv). we could see that: 
+
+$$
+\begin{aligned}
+delta = log(emv2) - log(emv1) = log(\frac{emv2}{emv1})\\
+\frac{emv2}{emv1}=exp(delta) \\ 
+emv2 = exp(delta) \times emv1 \\
+emv2 - emv1 = exp(delta)\times emv1 - emv1 = emv1 \times (exp(delta)-1)\\
+\frac{emv2-emv1}{emv1} = exp(delta)-1
+\end{aligned}
+$$
+
+
+```{r}
+exp(change_in_logemv1)-1
+```
+
+Thus, the percentage change in emv for a 0.1 increase in sporty, holding luxury constant at .30 units is -0.002151112, i.e. -0.2151112%.
+
+
+
+
+### Q2, part B
+
+```{r}
+lux_constant2 <- 0.7
+
+change_in_logemv2 <- (b1 + b3 * lux_constant2) * 0.1
+cat("Change in log(emv) for a 0.1 increase in sporty, holding luxury constant at .70 units:", change_in_logemv2, '\n')
+
+exp(change_in_logemv2)-1
+```
+
+Thus, the percentage change in emv for a 0.1 increase in sporty, holding luxury constant at .70 units is 0.05083381, i.e. 5.083381%.
+
+
+### Q2, part C
+
+This is because of the interaction term and the change of the values of luxury constant in it. To consider whether the relationship between the dependent variable and the independent variable varies based on the value of another independent variable, we would use interaction term. Because of the interaction term, the effect of sporty on the log(emv) or emv is influenced by the value of luxury. When the value of luxury changes from Part A to part B, the effect of sporty on the log(emv) or emv also changes. The interaction term make intuitive sense. In this context, we consider that when the value of luxury is larger, it is possible that the effect of sporty on emv gets larger. The effect could be weaker if the luxury is smaller. By intuition, the "sporty" quality may be more valued or appealing when combined with "luxury" attributes in the car industries. When compared to a simple sporty car, a more luxury sporty car may appeal to some consumers more and its emv might be larger. This might correspond to this question, where the change in emv becomes larger if sporty was increased by .1 units when the luxury constant increases.
+
+From Mathematical perspective, because the percentage change in emv is $e^{(\beta_1+\beta_3 \times luxury) \times \Delta_{sporty}}-1$. If $\Delta_{sporty}$, $\beta_1$, and $\beta_3$ stays the same, and $\beta_3$ is positive, when the value of luxury increases, the percentage change in emv would also increase.
+
+\newpage
+
+
+### Question 3: More on ggplot2 and regression planes
+
+```{r}
+library(ggplot2)
+data(diamonds)
+cutf=as.character(diamonds$cut)
+cutf=as.factor(cutf)
+```
+
+1.  
+
+```{r}
+qplot(carat, price, data=diamonds, color = cutf) +
+  labs(title = "Relationship between Price and Carat and Cut", x = "Carat", y = "Price")
+```
+
+```{r}
+qplot(carat, log(price), data=diamonds, color = cutf) +
+  labs(title = "Relationship between log(Price) and Carat and Cut", 
+       x = "Carat", y = "log(Price)")
+```
+
+```{r}
+qplot(carat, sqrt(price), data=diamonds, color = cutf) +
+  labs(title="Relationship between sqrt(Price) and Carat and Cut", 
+       x = "Carat", y = "sqrt(Price)")
+```
+
+
+2.  
+
+```{r}
+regmodel <- lm(log(price) ~ carat + cutf, data = diamonds)
+summary(regmodel)
+```
+
+```{r}
+plot(regmodel, which = 1)
+
+qplot(carat, regmodel$residuals, data=diamonds) +
+  labs(title="Residuals vs. Carat", x = "Carat", y ="Residuals")
+```
+
+Observing the regression diagnostic plots of residuals vs. fitted and residuals vs. carat, we find that the shapes of them are pretty similar. Ideally, residuals should be randomly scattered around zero without any clear pattern. However, this residuals vs. fitted plot shows that there is a generally down trend between residuals and fitted values. Also, the scatter of the plots is not evenly. We observe that there are many points before fitted values with 12 but just a few after 12. Thus, it indicates non-linearity and heteroscedasticity,i.e. non-constant variance, and it is possible that there are some outliers in the data.
+
+From the Residuals vs. Carat plot, we find that this plot checks if there’s a remaining relationship between carat and the residuals. There is a generally down trend in this plot too, which indicates that the relationship between price and carat is not fully captured by the linear model, even with a log transformation. Moreover, the scatter of the points is not evenly too and there are a few points after the values of Carat is 3. Thus, it also shows non-linearity pattern in this plot and the variance might not be constant.
+
+In conclusion, it might be necessary to have other transformations to make these two plots better since there are non-linearity and non-constant variances. This would help get a better model with better fit.

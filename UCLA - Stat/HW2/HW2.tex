@@ -1,0 +1,600 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\title{HW2}
+\author{Yuqi Gu}
+\date{10/14/2024}
+
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={HW2},
+  pdfauthor={Yuqi Gu},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+
+\begin{document}
+\maketitle
+
+\hypertarget{question-1}{%
+\subsection{Question 1}\label{question-1}}
+
+\hypertarget{q1-part-a}{%
+\subsubsection{Q1, part A}\label{q1-part-a}}
+
+We know \(SST = \sum_{i=1}^N (Y_i - \bar{Y})^2\),
+\(SSR = \sum_{i=1}^N (\hat{Y_i} - \bar{Y})^2\), so we get
+\(R^2=\frac{SSR}{SST} = \frac{\sum_{i=1}^N (Y_i - \bar{Y})^2}{\sum_{i=1}^N (\hat{Y_i} - \bar{Y})^2}\).
+
+We know \(\hat{Y_i} = b_0 + b_1X_i\) and \(b_0 = \bar{Y}-b_1\bar{X}\),
+so we have \(\hat{Y_i} = \bar{Y} - b_1\bar{X} + b_1X_i\) and so \[
+\begin{aligned}
+R^2 &= \frac{SSR}{SST} \\
+    &= \frac{\sum_{i=1}^N (\hat{Y_i} - \bar{Y})^2}{\sum_{i=1}^N (Y_i - \bar{Y})^2} \\
+    &= \frac{\sum_{i=1}^N (\bar{Y} - b_1\bar{X} + b_1X_i - \bar{Y})^2}{\sum_{i=1}^N (Y_i - \bar{Y})^2} \\
+    &= \frac{\sum_{i=1}^N (b_1(X_i-\bar{X})^2)}{\sum_{i=1}^N (Y_i - \bar{Y})^2} \\
+    &= \frac{b_1^2\sum_{i=1}^N (X_i-\bar{X})^2}{\sum_{i=1}^N (Y_i - \bar{Y})^2} \\
+\end{aligned}
+\] For the fitted regression line, we know
+\(b_1 = \frac{\sum_{i=1}^N (X_i - \bar{X})(Y_i - \bar{Y})}{\sum_{i=1}^N (X_i - \bar{X})^2} = \frac{s_{XY}}{s_X^2}\),
+so we have \[
+\begin{aligned}
+R^2 &= \frac{b_1^2\sum_{i=1}^N (X_i-\bar{X})^2}{\sum_{i=1}^N (Y_i - \bar{Y})^2} \\
+    &= \left(\frac{\sum_{i=1}^N (X_i - \bar{X})(Y_i - \bar{Y})}{\sum_{i=1}^N (X_i - \bar{X})^2}\right)^2
+    \frac{\sum_{i=1}^N (X_i-\bar{X})^2}{\sum_{i=1}^N (Y_i - \bar{Y})^2} \\
+    &= \frac{(\sum_{i=1}^N (X_i - \bar{X})(Y_i - \bar{Y}))^2}{\sum_{i=1}^N (X_i - \bar{X})^2\sum_{i=1}^N (Y_i - \bar{Y})^2} \\
+\end{aligned}
+\] For the fitted regression line, we know
+\(b_1 = \frac{\sum_{i=1}^N (X_i - \bar{X})(Y_i - \bar{Y})}{\sum_{i=1}^N (X_i - \bar{X})^2} = \frac{s_{XY}}{s_X^2}\)
+and \(b_1 = r_{XY} \times \frac{s_Y}{s_X}\), we have \[
+\begin{aligned}
+r_{XY} &= b_1 \frac{s_X}{s_Y} \\
+       &= \frac{s_{XY}}{s_X^2} \frac{s_X}{s_Y} \\
+       &= \frac{s_{XY}}{s_Xs_Y} \\
+       &= \frac{\sum_{i=1}^N (X_i - \bar{X})(Y_i - \bar{Y})}{\sqrt{\sum_{i=1}^N (X_i - \bar{X})^2} \sqrt{\sum_{i=1}^N (Y_i - \bar{Y})^2}}
+\end{aligned}
+\]
+
+and so we get \[
+\begin{aligned}
+(r_{XY})^2 &= \frac{(\sum_{i=1}^N (X_i - \bar{X})(Y_i - \bar{Y}))^2}{\sum_{i=1}^N (X_i - \bar{X})^2 \sum_{i=1}^N (Y_i - \bar{Y})^2} \\ 
+           &= R^2
+\end{aligned}
+\]
+
+\hypertarget{q1-part-b}{%
+\subsubsection{Q1, part B}\label{q1-part-b}}
+
+We know
+\(corr(X, e) = \frac{\sum_{i=1}^N (X_i - \bar{X})(e_i - \bar{e})}{\sqrt{\sum_{i=1}^N (X_i - \bar{X})^2} \sqrt{\sum_{i=1}^N (e_i - \bar{e})^2}} = \frac{\sum_{i=1}^N (X_i - \bar{X})e_i}{\sqrt{\sum_{i=1}^N (X_i - \bar{X})^2} \sqrt{\sum_{i=1}^N e_i^2}}\)
+since \(\bar{e} = 0\). To prove \(corr(X, e) = 0\), we just need to show
+the numerator is 0. Thus, using \(e_i = Y_i - b_0 - b_1X_i\) and
+\(\sum_{i=1}^N (X_i - \bar{X}) = 0\) by HW1, we get
+
+\[
+\begin{aligned}
+\sum_{i=1}^N (X_i - \bar{X})e_i &= \sum_{i=1}^N (X_i - \bar{X})(Y_i - b_0 - b_1X_i) \\
+                                &= \sum_{i=1}^N (X_i - \bar{X})Y_i - b_0\sum_{i=1}^N (X_i - \bar{X}) - b_1\sum_{i=1}^N (X_i - \bar{X})X_i\\
+                                &= \sum_{i=1}^N (X_i - \bar{X})Y_i  - b_1\sum_{i=1}^N (X_i - \bar{X})X_i 
+\end{aligned}
+\] We have
+\(\sum_{i=1}^N (X_i - \bar{X})X_i = \sum_{i=1}^N (X_i - \bar{X}) (X_i-\bar{X}+\bar{X}) = \sum_{i=1}^N (X_i - \bar{X})^2 + \sum_{i=1}^N \bar{X}(X_i - \bar{X}) = \sum_{i=1}^N (X_i - \bar{X})^2 + \bar{X}\sum_{i=1}^N(X_i - \bar{X}) = \sum_{i=1}^N (X_i - \bar{X})^2\)
+since \(\sum_{i=1}^N (X_i - \bar{X}) = 0\) by HW1. We also know
+\(b_1 = \frac{\sum_{i=1}^N (X_i - \bar{X})(Y_i - \bar{Y})}{\sum_{i=1}^N (X_i - \bar{X})^2}\).
+Thus, we get
+
+\$\$
+
+\begin{aligned}
+\sum_{i=1}^N (X_i - \bar{X})e_i &= \sum_{i=1}^N (X_i - \bar{X})Y_i - b_1\sum_{i=1}^N (X_i - \bar{X})X_i \\
+                                &= \sum_{i=1}^N (X_i - \bar{X})Y_i - b_1\sum_{i=1}^N (X_i - \bar{X})^2 \\
+                                &= \sum_{i=1}^N (X_i - \bar{X})Y_i -  \frac{\sum_{i=1}^N (X_i - \bar{X})(Y_i - \bar{Y})}{\sum_{i=1}^N (X_i - \bar{X})^2} \sum_{i=1}^N (X_i - \bar{X})^2 \\
+                                &= \sum_{i=1}^N (X_i - \bar{X})Y_i -  \sum_{i=1}^N (X_i - \bar{X})(Y_i - \bar{Y}) \\
+                                &= \sum_{i=1}^N (X_i - \bar{X})Y_i -  \left(\sum_{i=1}^N (X_i - \bar{X})Y_i - \sum_{i=1}^N (X_i - \bar{X}) \bar{Y}\right) \\
+                                &= \sum_{i=1}^N (X_i - \bar{X})Y_i -  \left(\sum_{i=1}^N (X_i - \bar{X})Y_i - \bar{Y}\sum_{i=1}^N (X_i - \bar{X}) \right) \\
+                                &= \sum_{i=1}^N (X_i - \bar{X})Y_i - \sum_{i=1}^N (X_i - \bar{X})Y_i \\
+                                &= 0
+                                
+\end{aligned}
+
+\$\$
+
+\newpage
+
+\hypertarget{question-2-more-on-nearest-neighbor-approaches}{%
+\subsection{Question 2 : More on Nearest Neighbor
+Approaches}\label{question-2-more-on-nearest-neighbor-approaches}}
+
+\hypertarget{q-2-part-a}{%
+\subsubsection{Q 2, part A}\label{q-2-part-a}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(DataAnalytics) }
+\FunctionTok{data}\NormalTok{(mvehicles)}
+\NormalTok{cars}\OtherTok{=}\NormalTok{mvehicles[mvehicles}\SpecialCharTok{$}\NormalTok{bodytype }\SpecialCharTok{!=} \StringTok{"Truck"}\NormalTok{,] }
+
+\NormalTok{luxsubset }\OtherTok{\textless{}{-}} \FunctionTok{subset}\NormalTok{(cars, luxury }\SpecialCharTok{\textgreater{}} \FloatTok{0.2} \SpecialCharTok{\&}\NormalTok{ luxury }\SpecialCharTok{\textless{}} \FloatTok{0.3}\NormalTok{)}
+\FunctionTok{hist}\NormalTok{(luxsubset}\SpecialCharTok{$}\NormalTok{emv, }
+     \AttributeTok{main =} \StringTok{"Histogram of emv given luxury interval is (.2, .3)"}\NormalTok{,}
+     \AttributeTok{xlab =} \StringTok{"emv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{HW2_files/figure-latex/unnamed-chunk-1-1.pdf}
+
+\hypertarget{q-2-part-b}{%
+\subsubsection{Q 2, part B}\label{q-2-part-b}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{meanemv }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(luxsubset}\SpecialCharTok{$}\NormalTok{emv)}
+\NormalTok{meanemv}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 23376.5
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{lwr }\OtherTok{\textless{}{-}} \FunctionTok{quantile}\NormalTok{(luxsubset}\SpecialCharTok{$}\NormalTok{emv, }\FloatTok{0.025}\NormalTok{)}
+\NormalTok{upr }\OtherTok{\textless{}{-}} \FunctionTok{quantile}\NormalTok{(luxsubset}\SpecialCharTok{$}\NormalTok{emv, }\FloatTok{0.975}\NormalTok{)}
+\NormalTok{predinterval }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(lwr, upr)}
+\NormalTok{predinterval}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##     2.5%    97.5% 
+## 14699.09 38632.34
+\end{verbatim}
+
+The mean of the conditional distribution in part A is 23376.5. The
+prediction interval that takes up 95\% of the data is {[}14699.09,
+38632.34{]}.
+
+\hypertarget{q-2-part-c}{%
+\subsubsection{Q 2, part C}\label{q-2-part-c}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{luxsubset2 }\OtherTok{\textless{}{-}} \FunctionTok{subset}\NormalTok{(cars, luxury }\SpecialCharTok{\textgreater{}} \FloatTok{0.7} \SpecialCharTok{\&}\NormalTok{ luxury }\SpecialCharTok{\textless{}} \FloatTok{0.8}\NormalTok{)}
+\FunctionTok{hist}\NormalTok{(luxsubset2}\SpecialCharTok{$}\NormalTok{emv, }
+     \AttributeTok{main =} \StringTok{"Histogram of emv given luxury interval is (.7, .8)"}\NormalTok{,}
+     \AttributeTok{xlab =} \StringTok{"emv"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{HW2_files/figure-latex/unnamed-chunk-3-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{meanemv2 }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(luxsubset2}\SpecialCharTok{$}\NormalTok{emv)}
+\NormalTok{meanemv2}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 68101.87
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{lwr2 }\OtherTok{\textless{}{-}} \FunctionTok{quantile}\NormalTok{(luxsubset2}\SpecialCharTok{$}\NormalTok{emv, }\FloatTok{0.025}\NormalTok{)}
+\NormalTok{upr2 }\OtherTok{\textless{}{-}} \FunctionTok{quantile}\NormalTok{(luxsubset2}\SpecialCharTok{$}\NormalTok{emv, }\FloatTok{0.975}\NormalTok{)}
+\NormalTok{predinterval2 }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(lwr2, upr2)}
+\NormalTok{predinterval2}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      2.5%     97.5% 
+##  34254.33 179179.22
+\end{verbatim}
+
+The mean of the conditional distribution in part A is 68101.87. The
+prediction interval that takes up 95\% of the data is {[}34254.33,
+179179.22{]}.
+
+By observing these two histograms, we find that the histogram in part A
+is more symmetric than the histogram in part C. The histogram in part C
+is skewed to the right. The values of the range of x axis of the
+histogram in part A is smaller than that in part C. Also, we observe
+that the range of x axis of the histogram in part A is much narrower
+than that in part C. The distribution of emv is more concentrated as
+shown by the histogram in part A. On the contrary, the distribution of
+emv is more scattered as shown by the histogram in part C. Thus, there
+are greater variability in the values of emv given luxury is in the
+interval (.7, .8) than the luxury is in the interval (.2, .3).
+
+By comparing the means of the conditional distribution of emv given
+luxury in these two intervals, we find that it shows lower average emv
+value given the luxury is in the interval (.2, .3). On the contrary, the
+mean of the conditional distribution of emv given the interval is (.7,
+.8) is higher. Moreover, by observing the prediction intervals that
+takes up 95\% of the data given these two intervals, we find that the
+prediction interval of emv is narrower given the luxury is in the
+interval (.2, .3) than the prediction interval of emv given the luxury
+is in the interval (.7, .8). This indicates that there are more
+variability of emv values when luxury is higher, which shows that it is
+not too precise to predict emv based on only luxury variable.
+
+\hypertarget{q-2-part-d}{%
+\subsubsection{Q 2, part D}\label{q-2-part-d}}
+
+Observing the results from part B and part C, it shows that emv is
+influenced by luxury since we find as the luxury interval increases, the
+mean values of emv and the prediction intervals increase. However, it is
+clear that luxury by itself does not provide an accurate prediction of
+emv because of the wide prediction intervals and obvious variability.
+Specifically, we find that the 95\% prediction intervals for emv ranges
+from 14,699.09 to 38,632.34 given luxury is in the interval (.2, .3),
+while in the (0.7, 0.8) interval, the range expands to 34,254.33 to
+179,179.22. The prediction intervals are too wide to make accurate
+prediction. Even though the luxury interval is so small, the prediction
+interval of emv is too wide. It also suggests that as luxury increases,
+the values of emv become more scattered and spread. This higher
+variability in the emv values indicate that there are other factors will
+influence the emv values. Even though the mean emv increases as the
+luxury increases (from 23,376.5 to 68,101.87), the histograms' broad
+distribution and lack of tight clustering suggest that this relationship
+might not be clear and definite. It implies that although luxury and emv
+may be positively correlated, there are still more variable should be
+considered to predict emv values more accurately. Additional variables
+or a more intricate model should be taken into account in order to
+capture the other influences on emv that cannot be explained by luxury
+alone.
+
+\newpage
+
+\hypertarget{question-3-optimal-pricing-and-elasticities}{%
+\subsection{Question 3 : Optimal Pricing and
+Elasticities}\label{question-3-optimal-pricing-and-elasticities}}
+
+\hypertarget{q-3-part-a}{%
+\subsubsection{Q 3, part A}\label{q-3-part-a}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{data}\NormalTok{(detergent)}
+
+\NormalTok{model }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(q\_tide128 }\SpecialCharTok{\textasciitilde{}}\NormalTok{ p\_tide128, }\AttributeTok{data =}\NormalTok{ detergent)}
+\FunctionTok{summary}\NormalTok{(model)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = q_tide128 ~ p_tide128, data = detergent)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -258.53  -46.95  -16.01   19.11 2048.53 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)  661.669     11.223   58.96   <2e-16 ***
+## p_tide128    -69.405      1.336  -51.94   <2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 123.3 on 14743 degrees of freedom
+## Multiple R-squared:  0.1547, Adjusted R-squared:  0.1546 
+## F-statistic:  2697 on 1 and 14743 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{elasticity }\OtherTok{\textless{}{-}} \FunctionTok{coef}\NormalTok{(}\FunctionTok{summary}\NormalTok{(model))[}\DecValTok{2}\NormalTok{]}
+\NormalTok{elasticity}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] -69.40548
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{confint}\NormalTok{(model, }\AttributeTok{level =} \FloatTok{0.9}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                   5 %      95 %
+## (Intercept) 643.20814 680.12981
+## p_tide128   -71.60381 -67.20716
+\end{verbatim}
+
+The price elasticity of demand for 128 oz Tide is -69.40548. The 90
+percent confidence interval for this elasticity is {[}-71.60381,
+-67.20716{]}.
+
+\hypertarget{q-3-part-b}{%
+\subsubsection{Q 3, part B}\label{q-3-part-b}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{gross\_margin }\OtherTok{\textless{}{-}} \FloatTok{0.25}
+\NormalTok{elas }\OtherTok{\textless{}{-}} \SpecialCharTok{{-}}\DecValTok{1}\SpecialCharTok{/}\NormalTok{gross\_margin}
+
+\NormalTok{conf\_interval }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\FunctionTok{confint}\NormalTok{(model, }\AttributeTok{level =} \FloatTok{0.9}\NormalTok{)[}\DecValTok{2}\NormalTok{], }\FunctionTok{confint}\NormalTok{(model, }\AttributeTok{level =} \FloatTok{0.9}\NormalTok{)[}\DecValTok{4}\NormalTok{])}
+
+\ControlFlowTok{if}\NormalTok{ (elas }\SpecialCharTok{\textgreater{}=}\NormalTok{ conf\_interval[}\DecValTok{1}\NormalTok{] }\SpecialCharTok{\&\&}\NormalTok{ elas }\SpecialCharTok{\textless{}=}\NormalTok{ conf\_interval[}\DecValTok{2}\NormalTok{]) \{}
+\NormalTok{  result }\OtherTok{\textless{}{-}} \StringTok{"Fail to reject the null hypothesis: The retailer may be pricing optimally."}
+\NormalTok{\} }\ControlFlowTok{else}\NormalTok{ \{}
+\NormalTok{  result }\OtherTok{\textless{}{-}} \StringTok{"Reject the null hypothesis: The retailer is not pricing optimally."}
+\NormalTok{\}}
+
+\NormalTok{result}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "Reject the null hypothesis: The retailer is not pricing optimally."
+\end{verbatim}
+
+\newpage
+
+\hypertarget{question-4}{%
+\subsection{Question 4}\label{question-4}}
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\tightlist
+\item
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{regression\_model }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(b0, b1, X, sigma) \{}
+\NormalTok{  error }\OtherTok{\textless{}{-}} \FunctionTok{rnorm}\NormalTok{(}\FunctionTok{length}\NormalTok{(X), }\AttributeTok{mean =} \DecValTok{0}\NormalTok{, }\AttributeTok{sd =}\NormalTok{ sigma)}
+\NormalTok{  Y }\OtherTok{\textless{}{-}}\NormalTok{ b0 }\SpecialCharTok{+}\NormalTok{ b1}\SpecialCharTok{*}\NormalTok{X }\SpecialCharTok{+}\NormalTok{ error}
+  \FunctionTok{return}\NormalTok{(Y)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\setcounter{enumi}{1}
+\tightlist
+\item
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{data}\NormalTok{(marketRf)}
+
+\NormalTok{b0 }\OtherTok{=} \DecValTok{1}
+\NormalTok{b1 }\OtherTok{=} \DecValTok{20}
+\NormalTok{sigma }\OtherTok{=} \DecValTok{1}
+
+\NormalTok{x\_values }\OtherTok{\textless{}{-}}\NormalTok{ marketRf}\SpecialCharTok{$}\NormalTok{vwretd}
+\NormalTok{y\_values }\OtherTok{\textless{}{-}} \FunctionTok{regression\_model}\NormalTok{(b0, b1, x\_values, sigma)}
+
+
+\FunctionTok{plot}\NormalTok{(x\_values, y\_values, }\AttributeTok{main =} \StringTok{"Scatterplot of X vs simulated Y"}\NormalTok{, }
+     \AttributeTok{xlab =} \StringTok{"X"}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"Y"}\NormalTok{,)}
+
+\NormalTok{fitted\_model }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(y\_values }\SpecialCharTok{\textasciitilde{}}\NormalTok{ x\_values)}
+\FunctionTok{abline}\NormalTok{(fitted\_model, }\AttributeTok{col =} \StringTok{"red"}\NormalTok{, }\AttributeTok{lty =} \DecValTok{1}\NormalTok{)}
+
+\FunctionTok{abline}\NormalTok{(}\AttributeTok{a =}\NormalTok{ b0, }\AttributeTok{b =}\NormalTok{ b1, }\AttributeTok{col =} \StringTok{"blue"}\NormalTok{, }\AttributeTok{lty =} \DecValTok{2}\NormalTok{) }
+
+
+\FunctionTok{legend}\NormalTok{(}\StringTok{"topleft"}\NormalTok{, }\AttributeTok{legend =} \FunctionTok{c}\NormalTok{(}\StringTok{"Fitted Regression Line"}\NormalTok{, }\StringTok{"True Conditional Mean Line"}\NormalTok{), }
+       \AttributeTok{col =} \FunctionTok{c}\NormalTok{(}\StringTok{"red"}\NormalTok{, }\StringTok{"blue"}\NormalTok{), }\AttributeTok{lty=}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{HW2_files/figure-latex/unnamed-chunk-7-1.pdf}
+
+\hypertarget{question-5}{%
+\subsection{Question 5}\label{question-5}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{beta0 }\OtherTok{\textless{}{-}} \DecValTok{2}
+\NormalTok{beta1 }\OtherTok{\textless{}{-}} \DecValTok{6}
+\NormalTok{sigmasquare }\OtherTok{\textless{}{-}} \DecValTok{2}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\tightlist
+\item
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{2810510}\NormalTok{)}
+\NormalTok{N }\OtherTok{\textless{}{-}} \DecValTok{300}
+\NormalTok{sigmanew }\OtherTok{\textless{}{-}} \FunctionTok{sqrt}\NormalTok{(sigmasquare)}
+
+\NormalTok{samplesnum }\OtherTok{\textless{}{-}} \DecValTok{10000}
+\NormalTok{beta0samples }\OtherTok{\textless{}{-}} \FunctionTok{numeric}\NormalTok{(samplesnum)}
+\NormalTok{beta1samples }\OtherTok{\textless{}{-}} \FunctionTok{numeric}\NormalTok{(samplesnum)}
+\ControlFlowTok{for}\NormalTok{ (i }\ControlFlowTok{in} \DecValTok{1}\SpecialCharTok{:}\NormalTok{samplesnum)\{}
+\NormalTok{  x\_uniform }\OtherTok{\textless{}{-}} \FunctionTok{runif}\NormalTok{(N, }\AttributeTok{min =} \DecValTok{0}\NormalTok{, }\AttributeTok{max =} \DecValTok{1}\NormalTok{)}
+\NormalTok{  y\_simulate }\OtherTok{\textless{}{-}} \FunctionTok{regression\_model}\NormalTok{(beta0, beta1, x\_uniform, sigmanew)}
+\NormalTok{  modelnew }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(y\_simulate }\SpecialCharTok{\textasciitilde{}}\NormalTok{ x\_uniform)}
+\NormalTok{  beta0samples[i] }\OtherTok{\textless{}{-}} \FunctionTok{coef}\NormalTok{(modelnew)[}\DecValTok{1}\NormalTok{]}
+\NormalTok{  beta1samples[i] }\OtherTok{\textless{}{-}} \FunctionTok{coef}\NormalTok{(modelnew)[}\DecValTok{2}\NormalTok{]}
+\NormalTok{\}}
+
+\FunctionTok{hist}\NormalTok{(beta0samples, }\AttributeTok{main =} \StringTok{"Sampling Distribution of b0"}\NormalTok{,}
+     \AttributeTok{xlab =} \StringTok{"b0"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{HW2_files/figure-latex/unnamed-chunk-9-1.pdf}
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\setcounter{enumi}{1}
+\tightlist
+\item
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{empb1 }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(beta1samples)}
+\NormalTok{empb1}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 6.00261
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{theob1 }\OtherTok{\textless{}{-}}\NormalTok{ beta1}
+\NormalTok{theob1}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 6
+\end{verbatim}
+
+The simulated value for \(E[b_1]\) is 6.00261 and the theoretical value
+is 6. These two values are very close.
+
+\begin{enumerate}
+\def\labelenumi{\alph{enumi}.}
+\setcounter{enumi}{2}
+\tightlist
+\item
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{empvarb1 }\OtherTok{\textless{}{-}} \FunctionTok{var}\NormalTok{(beta1samples)}
+\NormalTok{empvarb1}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.07957099
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{xbar }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(x\_uniform)}
+\NormalTok{deno }\OtherTok{\textless{}{-}} \FunctionTok{sum}\NormalTok{((x\_uniform }\SpecialCharTok{{-}}\NormalTok{ xbar)}\SpecialCharTok{\^{}}\DecValTok{2}\NormalTok{)}
+\NormalTok{theovarb1 }\OtherTok{\textless{}{-}}\NormalTok{ sigmanew}\SpecialCharTok{\^{}}\DecValTok{2} \SpecialCharTok{/}\NormalTok{ deno}
+\NormalTok{theovarb1}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.07500658
+\end{verbatim}
+
+The simulated value for \(Var(b_1)\) is 0.07957099. The theoretical
+value is 0.07500658. These two values are close.
+
+\hypertarget{question-6}{%
+\subsection{Question 6}\label{question-6}}
+
+\end{document}

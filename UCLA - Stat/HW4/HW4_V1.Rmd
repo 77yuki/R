@@ -1,0 +1,101 @@
+---
+title: "HW4"
+author: "Yuqi Gu"
+date: '2024-11-25'
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+### Question: Prediction of Catalogue Orders
+
+### part A
+```{r}
+setwd('/Users/yuki/Desktop/400/Assignment/HW4')
+load("cat_buy.rda")
+
+set.seed(510)
+nofrows <- nrow(cat_buy)
+nhalf <- nofrows/2
+ind.est=sample(1:nofrows, size=nhalf)
+est_sample = cat_buy[ind.est, ]
+holdout_sample = cat_buy[-ind.est, ]
+```
+
+\newpage
+
+### part B
+```{r}
+ordermodel_full <- glm(buytabw ~ ., data = est_sample, family = binomial)
+summary(ordermodel_full)
+```
+
+By observing the summary of the model above, we find divsords is insignificant since the corresponding p-value is 0.601161, which is larger than 0.05, and so we eliminate it. 
+
+```{r}
+ordermodel_new <- glm(buytabw ~ tabordrs+divwords+spgtabord+moslsdvs
+                      +moslsdvw+moslstab+orders, data = est_sample, 
+                      family = binomial)
+summary(ordermodel_new)
+```
+
+By observing the signs of the coefficients, we find that the coefficients of tabordrs, divwords, and spgtabord are positive. This indicates that the customers with more total orders from past tabloids or more total orders of women's clothes in past or more total orders from past spring cats are more likely to make the order from this spring catalogue. To be specific, customers with more past tabloid orders are more likely to respond to the mailing of spring catalogues. This makes sense since people who are interested in the spring catalogue called "tabloid" in the industry and who are willing to make orders are more likely to respond to the mailing of this spring catalogue. Moreover, customers who make more orders of women's clothes is more possible to make orders from this spring catalogues. Because the spring catalogues featured women's clothing and shoes, it is possible that customers who make women's clothing orders are more likely to read the spring catalogues and are more willing to make orders because of it and they might have product preference from the spring catalogues. Also, customers who has more orders from past spring cats are more likely to respond to this spring catalogues and make orders. This makes sense because people who make more orders from past spring catalogues are more likely to make orders from this spring catalogue because they might have seasonal loyalty to it. 
+
+The coefficients of moslsdvs, moslsdvw, moslstab, and orders are negative. This indicates that people who have longer durations since the last shoe order, women’s clothing order, or tabloid order and more total orders are less likely to make the order from this spring catalogue. To be specific, the coefficients of variables moslsdvs, moslsdvw, and moslstab are negative, which reflects as the months or time from last shoe, women's clothes, and tabloid orders increases, it is less likely the people will make an order from this spring catalogue. This makes sense since as the time pass by, the memory and interest in the catalogues of people might decrease and so it is possible that they will not likely to make an order from this spring catalogue. Furthermore, people who make more total orders are less likely to respond to the mailing of spring catalogues. This might be weird if we consider the coefficients for the different types of total orders shown as the first paragraph are positive and the total orders include them. However, this might make sense since frequent buyers are less responsive to specific activities or spring catalogues since they might have already had enough shoes or clothing that they need and they might be a little bit fatigue about buying many things. Moreover, total orders just indicate the number of orders instead of how much the customers spend in total. Thus, it is possible that some customers might not make many orders but spend a lot or some customers might make many orders but just spend a little bit. Thus, the customers who make many orders might not be loyal customers and may not respond to this spring catalogue. If we could consider how much the customers spend into this variable, it is possible that the coefficient of this variable might be positive since people who have more money and are willing to spend and make many orders are more likely to respond to this catalogue.
+
+
+```{r}
+cor_matrix <- cor(est_sample[, c("tabordrs", "divwords", "spgtabord", 
+                                 "moslsdvs", "moslsdvw", "moslstab", "orders")])
+print(cor_matrix)
+```
+```{r}
+cor_matrix2 <- cor(est_sample[, c("tabordrs", "divsords","divwords", "spgtabord",  
+                                 "moslsdvs", "moslsdvw", "moslstab", "orders")])
+print(cor_matrix2)
+```
+
+
+```{r}
+library(car)
+vif(ordermodel_new)
+vif(ordermodel_full)
+```
+We might should worry about multi-collinearity in this dataset. This is because some variables are possibly highly correlated. The dependence among the X variables can be so strong that it may be difficult to estimate the regression coefficients. As the correlation matrix shows, the orders and tabordrs are highly correlated and the correlation coefficient is 0.7756585 (larger than 0.75) and the correlation coefficient between orders and divwords is 0.7696387 (larger than 0.75), which is also high. Specifically, it is possible that orders and tabordrs are highly correlated and orders and divwords are highly correlated. This is because total orders from past tabloids and total orders of women’s clothes in past are part of the total orders. 
+
+Furthermore, the correlation coefficient between spgtabord and tabordrs is 0.8978959 (larger than 0.75), which is so hight that we should notice. These two variables spgtabord and tabordrs are possibly highly correlated because this spring catalogue was called a “tabloid” in the industry. These two are something similar. Thus, the total orders from past tabloids and the total orders from past spring cats are strongly correlated.
+
+Considering the VIF calculated above, only the vif for tabordrs is larger than 5 that we might should notice, but it is smaller than 10 so we could not worry too much about it.
+
+
+\newpage
+
+### part C
+```{r}
+predicted_values <- predict(ordermodel_new, newdata = holdout_sample, type = "response")
+
+library(ggplot2)
+qplot(factor(buytabw), predicted_values, data = holdout_sample, geom = "boxplot", 
+      fill = I("green"), xlab = "Buytabw (0 = No Order, 1 = Order)") + 
+  theme(axis.title = element_text(size = rel(1)))
+```
+
+
+```{r}
+deciles=cut(predicted_values,breaks=quantile(predicted_values,probs=c(seq(from=0,to=1,by=.1))),include.lowest=TRUE)
+
+library(dplyr)
+deciles=as.numeric(deciles)
+df=data.frame(deciles=deciles,predicted_values=predicted_values,buytabw=holdout_sample$buytabw)
+lift=aggregate(df,by=list(deciles),FUN="mean",data=df) # find mean default for each decile
+lift=lift[,c(2,4)]
+lift[,3]=lift[,2]/mean(holdout_sample$buytabw)
+names(lift)=c("decile","Mean Response","Lift Factor")
+lift
+```
+
+

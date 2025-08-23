@@ -1,0 +1,629 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={HW3-final},
+  pdfauthor={Yuqi Gu},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{HW3-final}
+\author{Yuqi Gu}
+\date{2024-11-16}
+
+\begin{document}
+\maketitle
+
+\subsubsection{Question 1 : Prediction from Multiple
+Regressions}\label{question-1-prediction-from-multiple-regressions}
+
+\subsubsection{Q1, part A}\label{q1-part-a}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(DataAnalytics) }
+\FunctionTok{data}\NormalTok{(multi)}
+
+\NormalTok{mullrm }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(Sales}\SpecialCharTok{\textasciitilde{}}\NormalTok{p1 }\SpecialCharTok{+}\NormalTok{ p2, }\AttributeTok{data =}\NormalTok{ multi)}
+\FunctionTok{summary}\NormalTok{(mullrm)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = Sales ~ p1 + p2, data = multi)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -66.916 -15.663  -0.509  18.904  63.302 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)  115.717      8.548   13.54   <2e-16 ***
+## p1           -97.657      2.669  -36.59   <2e-16 ***
+## p2           108.800      1.409   77.20   <2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 28.42 on 97 degrees of freedom
+## Multiple R-squared:  0.9871, Adjusted R-squared:  0.9869 
+## F-statistic:  3717 on 2 and 97 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+\subsubsection{Q1, part B}\label{q1-part-b}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{mean}\NormalTok{(multi}\SpecialCharTok{$}\NormalTok{p2)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 8
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{correlation\_p1\_p2 }\OtherTok{\textless{}{-}} \FunctionTok{cor}\NormalTok{(multi}\SpecialCharTok{$}\NormalTok{p1, multi}\SpecialCharTok{$}\NormalTok{p2)}
+\NormalTok{correlation\_sales\_p2 }\OtherTok{\textless{}{-}} \FunctionTok{cor}\NormalTok{(multi}\SpecialCharTok{$}\NormalTok{Sales, multi}\SpecialCharTok{$}\NormalTok{p2)}
+\NormalTok{correlation\_sales\_p1 }\OtherTok{\textless{}{-}} \FunctionTok{cor}\NormalTok{(multi}\SpecialCharTok{$}\NormalTok{Sales, multi}\SpecialCharTok{$}\NormalTok{p1)}
+
+\NormalTok{correlation\_p1\_p2}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.7833345
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{correlation\_sales\_p2}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.8996148
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{correlation\_sales\_p1}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.4425828
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{predict}\NormalTok{(mullrm, }\AttributeTok{new=}\FunctionTok{data.frame}\NormalTok{(}\AttributeTok{p1=}\FloatTok{7.5}\NormalTok{, }\AttributeTok{p2=}\FunctionTok{mean}\NormalTok{(multi}\SpecialCharTok{$}\NormalTok{p2)), }\AttributeTok{interval=}\StringTok{\textquotesingle{}prediction\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##        fit    lwr      upr
+## 1 253.6862 195.23 312.1424
+\end{verbatim}
+
+It is possible that there is correlation between p1 and p2. Based on the
+correlation between p1 and p2 calculated above, which is 0.7833345.
+There is relationship between p1 and p2. If we hope to use p1=\$7.5 to
+estimate sales of this firm's product, it is indispensable for us to
+find a suitable p2 instead of directly using the mean of p2. If the
+correlation between p1 and p2 exists and it is important, the mean of p2
+might not be the particular p2 that we expect to use when p1 is \$7.5.
+If we use the mean of p2 to make the estimate of sales of the firm's
+product, this might cause inaccuracies of the estimate because we
+disregard the relationship between p1 and p2. Moreover, the prediction
+accuracy is reduced since the effects of both p1 and p2 on sales is not
+considered. Furthermore, the mean of p2 is calculated based on all the
+values of p2 but it doesn't consider the specific case that p1 is \$7.5.
+It is not reasonable to set p2=mean(p2) in this case. If p2 generally
+changes with the change of p1, setting p2=mean(p2) would ignore the
+dependencies or potential correlations between p1 and p2, which cause
+the estimate of sales inaccurate and not convincing.
+
+Moreover, the correlation between sales and p2 is large and there is
+also correlation between p1 and sales. The effect of only p2 on sales is
+significant and we could not ignore it. Also, considering the prediction
+interval as shown above, we find that the prediction interval is pretty
+wide and the standard error is large. This indicates that the prediction
+is not accurate. Thus, setting p2=mean(p2) is a bad choice.
+
+\subsubsection{Q1, part C}\label{q1-part-c}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{p2\_p1model }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(p2}\SpecialCharTok{\textasciitilde{}}\NormalTok{p1, }\AttributeTok{data =}\NormalTok{ multi)}
+\FunctionTok{summary}\NormalTok{(p2\_p1model)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = p2 ~ p1, data = multi)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -4.5921 -1.3602  0.0299  1.3851  5.5472 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)   0.8773     0.6062   1.447    0.151    
+## p1            1.4832     0.1189  12.475   <2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 2.037 on 98 degrees of freedom
+## Multiple R-squared:  0.6136, Adjusted R-squared:  0.6097 
+## F-statistic: 155.6 on 1 and 98 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{predp2 }\OtherTok{\textless{}{-}} \FunctionTok{predict}\NormalTok{(p2\_p1model, }\AttributeTok{new=}\FunctionTok{data.frame}\NormalTok{(}\AttributeTok{p1=}\FloatTok{7.5}\NormalTok{))}
+\NormalTok{predp2}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##        1 
+## 12.00116
+\end{verbatim}
+
+\subsubsection{Q1, part D}\label{q1-part-d}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{predict}\NormalTok{(mullrm, }\AttributeTok{new=}\FunctionTok{data.frame}\NormalTok{(}\AttributeTok{p1=}\FloatTok{7.5}\NormalTok{, }\AttributeTok{p2=}\NormalTok{predp2))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##        1 
+## 689.0118
+\end{verbatim}
+
+By using the predicted value of p2 from part C and p1 = \$7.5, to
+predict sales, we get the result is 689.0118.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{slrm }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(Sales}\SpecialCharTok{\textasciitilde{}}\NormalTok{p1, }\AttributeTok{data =}\NormalTok{ multi)}
+\FunctionTok{summary}\NormalTok{(slrm)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = Sales ~ p1, data = multi)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -513.91 -157.69   -1.42  155.20  650.20 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)   211.16      66.49   3.176    0.002 ** 
+## p1             63.71      13.04   4.886 4.01e-06 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 223.4 on 98 degrees of freedom
+## Multiple R-squared:  0.1959, Adjusted R-squared:  0.1877 
+## F-statistic: 23.87 on 1 and 98 DF,  p-value: 4.015e-06
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{predict}\NormalTok{(slrm, }\AttributeTok{new=}\FunctionTok{data.frame}\NormalTok{(}\AttributeTok{p1=}\FloatTok{7.5}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##        1 
+## 689.0118
+\end{verbatim}
+
+These two results are exactly the same is because the value of p2 we
+used in multiple regression model is based on p1. Specifically, in part
+C, we construct a regression model between p2 and p1 and so p2 is
+linearly dependent on p1. When we put the predicated value of p2 based
+on p1 back into the multiple regression model we construct in part A and
+use it to make estimate of the value of sales, this becomes the a simple
+function of p1 for sales. This happens since p2 doesn't independently
+provide any additional information about Sales beyond what is already
+captured by p1, given the p2 we used is a function of p1.
+
+If we hope to represent the process in formulas, From the code
+\texttt{summary(mullrm)}, we get
+\(sales = 115.717-97.657\times p1 + 108.8 \times p2\). From the code
+\texttt{summary(p2\_p1model)}, we get
+\(p2 = 0.8773 + 1.4832 \times p1\). From the code
+\texttt{summary(slrm)}, we get \(sales = 211.16 + 63.71 \times p1\).
+After plugging \(p2 = 0.8773 + 1.4832 \times p1\) into
+\(sales = 115.717-97.657\times p1 + 108.8 \times p2\), we have
+
+\[
+\begin{aligned}
+ sales &= 115.717-97.657\times p1 + 108.8 \times p2 \\
+       &= 115.717-97.657\times p1 + 108.8 \times (0.8773 + 1.4832 \times p1) \\ 
+       &= 211.16 + 63.71\times p1
+\end{aligned}
+\] \newpage
+
+\subsubsection{Question 2: Interactions}\label{question-2-interactions}
+
+\subsubsection{Q2, part A}\label{q2-part-a}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{data}\NormalTok{(mvehicles)}
+\NormalTok{cars}\OtherTok{=}\NormalTok{mvehicles[mvehicles}\SpecialCharTok{$}\NormalTok{bodytype }\SpecialCharTok{!=} \StringTok{"Truck"}\NormalTok{,]}
+
+\NormalTok{outslr }\OtherTok{=} \FunctionTok{lm}\NormalTok{(}\FunctionTok{log}\NormalTok{(emv)}\SpecialCharTok{\textasciitilde{}}\NormalTok{sporty}\SpecialCharTok{+}\NormalTok{luxury}\SpecialCharTok{+}\NormalTok{sporty}\SpecialCharTok{:}\NormalTok{luxury, }\AttributeTok{data =}\NormalTok{ cars)}
+\FunctionTok{lmSumm}\NormalTok{(outslr)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Multiple Regression Analysis:
+##     4 regressors(including intercept) and 1395 observations
+## 
+## lm(formula = log(emv) ~ sporty + luxury + sporty:luxury, data = cars)
+## 
+## Coefficients:
+##               Estimate Std Error t value p value
+## (Intercept)     9.7350   0.04385  222.02       0
+## sporty         -0.4096   0.11600   -3.53       0
+## luxury          1.3220   0.10900   12.12       0
+## sporty:luxury   1.2930   0.22210    5.82       0
+## ---
+## Standard Error of the Regression:  0.3122
+## Multiple R-squared:  0.588  Adjusted R-squared:  0.587
+## Overall F stat: 662.49 on 3 and 1391 DF, pvalue= 0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{b1 }\OtherTok{\textless{}{-}}\NormalTok{ outslr}\SpecialCharTok{$}\NormalTok{coef[}\StringTok{"sporty"}\NormalTok{]}
+\NormalTok{b3 }\OtherTok{\textless{}{-}}\NormalTok{ outslr}\SpecialCharTok{$}\NormalTok{coef[}\StringTok{"sporty:luxury"}\NormalTok{]}
+
+\NormalTok{lux\_constant1 }\OtherTok{\textless{}{-}} \FloatTok{0.3}
+
+\NormalTok{change\_in\_logemv1 }\OtherTok{\textless{}{-}}\NormalTok{ (b1 }\SpecialCharTok{+}\NormalTok{ b3 }\SpecialCharTok{*}\NormalTok{ lux\_constant1) }\SpecialCharTok{*} \FloatTok{0.1}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Change in log(emv) for a 0.1 increase in sporty, holding luxury constant at .30 units:"}\NormalTok{, change\_in\_logemv1, }\StringTok{\textquotesingle{}}\SpecialCharTok{\textbackslash{}n}\StringTok{\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Change in log(emv) for a 0.1 increase in sporty, holding luxury constant at .30 units: -0.002153429
+\end{verbatim}
+
+To get the formula for the change in emv, suppose emv2 is the emv after
+change due to 0.1 increase in sporty and emv1 is the emv before change
+and delta is the change in log(emv). we could see that:
+
+\[
+\begin{aligned}
+delta = log(emv2) - log(emv1) = log(\frac{emv2}{emv1})\\
+\frac{emv2}{emv1}=exp(delta) \\ 
+emv2 = exp(delta) \times emv1 \\
+emv2 - emv1 = exp(delta)\times emv1 - emv1 = emv1 \times (exp(delta)-1)\\
+\frac{emv2-emv1}{emv1} = exp(delta)-1
+\end{aligned}
+\]
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{exp}\NormalTok{(change\_in\_logemv1)}\SpecialCharTok{{-}}\DecValTok{1}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##       sporty 
+## -0.002151112
+\end{verbatim}
+
+Thus, the percentage change in emv for a 0.1 increase in sporty, holding
+luxury constant at .30 units is -0.002151112, i.e.~-0.2151112\%.
+
+\subsubsection{Q2, part B}\label{q2-part-b}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{lux\_constant2 }\OtherTok{\textless{}{-}} \FloatTok{0.7}
+
+\NormalTok{change\_in\_logemv2 }\OtherTok{\textless{}{-}}\NormalTok{ (b1 }\SpecialCharTok{+}\NormalTok{ b3 }\SpecialCharTok{*}\NormalTok{ lux\_constant2) }\SpecialCharTok{*} \FloatTok{0.1}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Change in log(emv) for a 0.1 increase in sporty, holding luxury constant at .70 units:"}\NormalTok{, change\_in\_logemv2, }\StringTok{\textquotesingle{}}\SpecialCharTok{\textbackslash{}n}\StringTok{\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Change in log(emv) for a 0.1 increase in sporty, holding luxury constant at .70 units: 0.04958395
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{exp}\NormalTok{(change\_in\_logemv2)}\SpecialCharTok{{-}}\DecValTok{1}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##     sporty 
+## 0.05083381
+\end{verbatim}
+
+Thus, the percentage change in emv for a 0.1 increase in sporty, holding
+luxury constant at .70 units is 0.05083381, i.e.~5.083381\%.
+
+\subsubsection{Q2, part C}\label{q2-part-c}
+
+This is because of the interaction term and the change of the values of
+luxury constant in it. To consider whether the relationship between the
+dependent variable and the independent variable varies based on the
+value of another independent variable, we would use interaction term.
+Because of the interaction term, the effect of sporty on the log(emv) or
+emv is influenced by the value of luxury. When the value of luxury
+changes from Part A to part B, the effect of sporty on the log(emv) or
+emv also changes. The interaction term make intuitive sense. In this
+context, we consider that when the value of luxury is larger, it is
+possible that the effect of sporty on emv gets larger. The effect could
+be weaker if the luxury is smaller. By intuition, the ``sporty'' quality
+may be more valued or appealing when combined with ``luxury'' attributes
+in the car industries. When compared to a simple sporty car, a more
+luxury sporty car may appeal to some consumers more and its emv might be
+larger. This might correspond to this question, where the change in emv
+becomes larger if sporty was increased by .1 units when the luxury
+constant increases.
+
+From Mathematical perspective, because the percentage change in emv is
+\(e^{(\beta_1+\beta_3 \times luxury) \times \Delta_{sporty}}-1\). If
+\(\Delta_{sporty}\), \(\beta_1\), and \(\beta_3\) stays the same, and
+\(\beta_3\) is positive, when the value of luxury increases, the
+percentage change in emv would also increase.
+
+\newpage
+
+\subsubsection{Question 3: More on ggplot2 and regression
+planes}\label{question-3-more-on-ggplot2-and-regression-planes}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(ggplot2)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in register(): Can't find generic `scale_type` in package ggplot2 to
+## register S3 method.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{data}\NormalTok{(diamonds)}
+\NormalTok{cutf}\OtherTok{=}\FunctionTok{as.character}\NormalTok{(diamonds}\SpecialCharTok{$}\NormalTok{cut)}
+\NormalTok{cutf}\OtherTok{=}\FunctionTok{as.factor}\NormalTok{(cutf)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{qplot}\NormalTok{(carat, price, }\AttributeTok{data=}\NormalTok{diamonds, }\AttributeTok{color =}\NormalTok{ cutf) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Relationship between Price and Carat and Cut"}\NormalTok{, }\AttributeTok{x =} \StringTok{"Carat"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Price"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{HW3-yuki-copy_files/figure-latex/unnamed-chunk-10-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{qplot}\NormalTok{(carat, }\FunctionTok{log}\NormalTok{(price), }\AttributeTok{data=}\NormalTok{diamonds, }\AttributeTok{color =}\NormalTok{ cutf) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \StringTok{"Relationship between log(Price) and Carat and Cut"}\NormalTok{, }
+       \AttributeTok{x =} \StringTok{"Carat"}\NormalTok{, }\AttributeTok{y =} \StringTok{"log(Price)"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{HW3-yuki-copy_files/figure-latex/unnamed-chunk-11-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{qplot}\NormalTok{(carat, }\FunctionTok{sqrt}\NormalTok{(price), }\AttributeTok{data=}\NormalTok{diamonds, }\AttributeTok{color =}\NormalTok{ cutf) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title=}\StringTok{"Relationship between sqrt(Price) and Carat and Cut"}\NormalTok{, }
+       \AttributeTok{x =} \StringTok{"Carat"}\NormalTok{, }\AttributeTok{y =} \StringTok{"sqrt(Price)"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{HW3-yuki-copy_files/figure-latex/unnamed-chunk-12-1.pdf}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\tightlist
+\item
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{regmodel }\OtherTok{\textless{}{-}} \FunctionTok{lm}\NormalTok{(}\FunctionTok{log}\NormalTok{(price) }\SpecialCharTok{\textasciitilde{}}\NormalTok{ carat }\SpecialCharTok{+}\NormalTok{ cutf, }\AttributeTok{data =}\NormalTok{ diamonds)}
+\FunctionTok{summary}\NormalTok{(regmodel)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## lm(formula = log(price) ~ carat + cutf, data = diamonds)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -6.1680 -0.2439  0.0337  0.2576  1.5651 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)    6.01544    0.01055  570.11   <2e-16 ***
+## carat          1.98636    0.00365  544.16   <2e-16 ***
+## cutfGood       0.14058    0.01136   12.38   <2e-16 ***
+## cutfIdeal      0.22794    0.01027   22.19   <2e-16 ***
+## cutfPremium    0.16361    0.01041   15.72   <2e-16 ***
+## cutfVery Good  0.18146    0.01051   17.27   <2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.3947 on 53934 degrees of freedom
+## Multiple R-squared:  0.8487, Adjusted R-squared:  0.8487 
+## F-statistic: 6.052e+04 on 5 and 53934 DF,  p-value: < 2.2e-16
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{plot}\NormalTok{(regmodel, }\AttributeTok{which =} \DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{HW3-yuki-copy_files/figure-latex/unnamed-chunk-14-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{qplot}\NormalTok{(carat, regmodel}\SpecialCharTok{$}\NormalTok{residuals, }\AttributeTok{data=}\NormalTok{diamonds) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{title=}\StringTok{"Residuals vs. Carat"}\NormalTok{, }\AttributeTok{x =} \StringTok{"Carat"}\NormalTok{, }\AttributeTok{y =}\StringTok{"Residuals"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{HW3-yuki-copy_files/figure-latex/unnamed-chunk-14-2.pdf}
+
+Observing the regression diagnostic plots of residuals vs.~fitted and
+residuals vs.~carat, we find that the shapes of them are pretty similar.
+Ideally, residuals should be randomly scattered around zero without any
+clear pattern. However, this residuals vs.~fitted plot shows that there
+is a generally down trend between residuals and fitted values. Also, the
+scatter of the plots is not evenly. We observe that there are many
+points before fitted values with 12 but just a few after 12. Thus, it
+indicates non-linearity and heteroscedasticity,i.e.~non-constant
+variance, and it is possible that there are some outliers in the data.
+
+From the Residuals vs.~Carat plot, we find that this plot checks if
+there's a remaining relationship between carat and the residuals. There
+is a generally down trend in this plot too, which indicates that the
+relationship between price and carat is not fully captured by the linear
+model, even with a log transformation. Moreover, the scatter of the
+points is not evenly too and there are a few points after the values of
+Carat is 3. Thus, it also shows non-linearity pattern in this plot and
+the variance might not be constant.
+
+In conclusion, it might be necessary to have other transformations to
+make these two plots better since there are non-linearity and
+non-constant variances. This would help get a better model with better
+fit.
+
+\end{document}

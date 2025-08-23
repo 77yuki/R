@@ -1,0 +1,62 @@
+---
+header-includes:
+- \usepackage{amssymb, amsmath, amsthm}
+- \usepackage{tabu}
+- \newcommand{\E}{\mathbb{E}}
+- \newcommand{\var}{{\rm Var}}
+- \newcommand{\N}{\mathcal{N}}
+output: pdf_document
+---
+
+\noindent \begin{tabu} to \textwidth {@{}X[4 l] @{}X[r]}
+  \textbf{Homework 4}           & \\ 
+  \textbf{MSBA 400: Statistical Foundations for Data Analytics}   & \\ 
+  \textbf{Professor Rossi}         & 
+\end{tabu}
+
+\bigskip
+### Question: Prediction of Catalogue Orders
+
+The dataset `cat_buy.rda` contains data on the response of customers to the mailing of spring catalogues.  The variable `buytabw` is `1` if there is an order from this spring catalogue and `0` if not.  This is the dependent or response variable (literally was there a "response" to or order from the direct mailing).  
+
+This spring catalogue was called a "tabloid" in the industry. The catalogue featured women's clothing and shoes. The independent variables represent information gathered from the internal `house file` of the past order activity of these 20,617 customers who received this catalogue.  
+
+In direct marketing, the predictor variables are typically of the "RFM" type: 1. Recency 2. Frequency and 3. Monetary value. This data set has both information on the volume of past orders as well as the recency of these orders. 
+
+The variables are:
+* tabordrs  (total orders from past tabloids)  
+* divsords  (total orders of shoes in past)  
+* divwords  (total orders of women's clothes in past)  
+* spgtabord (total orders from past spring cats)  
+* moslsdvs  (mos since last shoe order)  
+* moslsdvw  (mos since last women's clothes order)  
+* moslstab  (mos since last tabloid order)  
+* orders    (total orders) 
+
+### part A
+
+Use the R `sample` command to randomly sample 1/2 of the data.  The sample command will sample randomly from a list of numbers, e.g. `r sample(1:10,size=5)` will select 5 from the numbers 1,2,3,4,5,6,7,8,9,10.  
+
+Use `sample` to select row numbers and then use these row numbers to divide your data into two parts. One part for estimation and one part for validation.
+
+Hint: see code below (modify)
+
+`ind.est=sample(???,???)`   
+`est_sample = cat_buy[ind.est,]`       
+`holdout_sample = cat_buy[-ind.est,]`
+
+### part B
+
+Fit a logistic regression model using the estimation sample produced in part A.  Eliminate insignificant variables.
+
+Discuss your final specification, do the signs of the coefficients make sense to you?
+
+Should you worry about multi-collinearity in this dataset?  
+
+### part C
+
+Use the best-fit from part B to predict using the holdout sample.   
+
+Plot boxplots of the fitted probabilities for each value of `buytabw` for the holdout sample (see code snippets from Chapter 7 for an example) 
+
+Compute a "lift" table as done in Chapter 7 code snippets.

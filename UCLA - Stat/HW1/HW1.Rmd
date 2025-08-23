@@ -1,0 +1,254 @@
+---
+title: "HW1"
+author: "Yuqi Gu"
+date: "10/7/2024"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Question 1
+
+
+a. Because $\bar{Y} = \sum_{i=1}^N \frac{1}{N}Y_i$, we could get $N\bar{Y} = \sum_{i=1}^N Y_i$. Thus, we have
+$$
+\begin{aligned}
+\sum_{i=1}^N (Y_i - \bar{Y}) &= \sum_{i=1}^N Y_i - \sum_{i=1}^N \bar{Y} \\
+                             &= N\bar{Y} - N\bar{Y} \\ 
+                             &= 0
+\end{aligned}
+$$
+
+b. Because $\bar{X} = \sum_{i=1}^N \frac{1}{N}X_i$, we could get $N\bar{X} = \sum_{i=1}^N X_i$. Thus, we have $\sum_{i=1}^N (X_i - \bar{X}) = 0$, which is similar to part a. Then we get
+$$
+\begin{aligned}
+\sum_{i=1}^N (X_i - \bar{X})(Y_i - \bar{Y}) 
+&= \sum_{i=1}^N (X_i - \bar{X}) Y_i - \sum_{i=1}^N (X_i - \bar{X}) \bar{Y} \\
+&= \sum_{i=1}^N (X_i - \bar{X}) Y_i - \bar{Y} \sum_{i=1}^N (X_i - \bar{X}) \\ 
+&= \sum_{i=1}^N (X_i - \bar{X}) Y_i - \bar{Y} \times 0 \\
+&= \sum_{i=1}^N (X_i - \bar{X}) Y_i
+\end{aligned}
+$$
+\newpage
+
+### Question 2
+(a) The expectation of a random variable is defined as the weighted average of the values of the random variable. It’s determined by multiplying each possible value of the variable by its corresponding probability, then summing up all those products. 
+(b) The sample average is the average of the values of a variable in the sample. It is calculated as dividing the sum of the values by the number of them. Based on the observed data, the sample average is an estimate of the true population mean. The value of the sample average might fluctuate since it depends on the which sample chosen. 
+
+The differences between them is that the expectation of a random variable is a theoretical value or parameter related to the distribution of the random variable, while the sample average is the calculated value performed from the distribution.
+
+\newpage
+
+### Question 3
+a. Central Limit Theorem: As the sample size increases, the sampling distribution of the mean converges to the normal distribution. The asymptotic distribution for the sample mean is the normal distribution regardless of the shape of the original data as the sample size approaches infinity.
+
+b.
+```{r}
+curve(dgamma(x, shape=2, scale=2), 
+      main = expression("Density of X ~" ~ Gamma(alpha==2, beta==2)),
+      from=0, to=15, xlab = "X", ylab = "Density", lwd = 2)
+```
+
+By plotting the density of X, we observe that there is a long tail to the right and so it shows the Gamma distribution is skewed to the right.The density increases from 0 to a peak and then decreases as X increases. It is unimodal and the peak is around 4 as observed in the plot.
+
+c. 
+```{r}
+r <- 1000
+n <- 10
+Xbar <- numeric(r)
+
+for (i in 1:r){
+  Xbari <- mean(rgamma(n, shape = 2, scale = 2))
+  Xbar[i] <- Xbari
+}
+
+hist(Xbar, main = expression("Histogram of" ~ bar(X)[n]), xlab = ~ bar(X)[n], 
+     breaks = 20)
+```
+
+The histogram is skewed to the right, which means the sampling distribution of $\bar{X}_{(n)}$ is skewed to the right. Moreover, it is unimodal and the peak is around 4, which corresponds to the formula $E[X] = \alpha\beta = 2*2 = 4$.
+
+d.
+```{r}
+n2 <- 100
+Xbar2 <- numeric(r)
+
+for (i in 1:r){
+  Xbari2 <- mean(rgamma(n2, shape = 2, scale = 2))
+  Xbar2[i] <- Xbari2
+}
+
+hist(Xbar2, main = expression("Histogram of" ~ bar(X)[n]), xlab = ~ bar(X)[n], 
+     breaks = 20)
+```
+
+The histogram becomes more symmetric than the histogram in part c. This illustrates the CLT since as n becomes larger, the sampling distribution of the mean approximates normal distribution whose shape is more symmetric regardless of the shape of the original data. Moreover, we notice that the shape of Gamma($\alpha = 2, \beta = 2$) distribution is unimodal and it is skewed to the right as observed in part b and c. However, as n increases from 10 to 100, the sampling distribution of the mean becomes more symmetric. It is still unimodal. The peak is still around 4. Moreover, the range of x-axis becomes smaller.
+
+\newpage
+
+### Question 4
+
+```{r}
+normalsamp <- rnorm(10000, mean = 0, sd = 1)
+tsamp <- rt(10000, df = 5)
+
+hist(normalsamp, probability = TRUE, col=scales::alpha("blue", 0.5), 
+     xlim=c(-5,5), breaks = 40, xlab = "Values",
+     main = "Histograms of N(0, 1) distribution and t-distribution with df = 5")
+hist(tsamp, add=TRUE,probability = TRUE, col=scales::alpha("pink", 0.5), 
+     breaks = 40)
+legend("topright", legend = c("N(0, 1) distribution", "t-distribution with df = 5"), 
+       fill=c(scales::alpha("blue", 0.5), scales::alpha("pink", 0.5)))
+```
+
+As shown above, we observe that the blue histogram, which represents the N(0,1) distribution, has thinner tails than the pink histogram, which represents the t-distribution with 5 degrees of freedom. This is shown as the pink histogram is taller than the blue histogram when observing the tails on the two sides. Specifically, when we observe the histogram when values are between -4 and -2 and when values are between 2 and 4, the pink area is larger than the blue area and the pink area is taller. Furthermore, there are more values around the center for the normal distribution than the t distribution. There are still some pink areas above 4 and below -4, which means the tails of t distribution is longer and thicker. Thus, N(0, 1) distribution has much thinner tails than a t-distribution with 5 degrees of freedom.
+
+\newpage
+
+### Question 5
+a.
+```{r}
+data(Vanguard, package="DataAnalytics")
+
+Van_vfiax <- Vanguard[Vanguard$ticker == "VFIAX",]
+s <- sd(Van_vfiax$mret)
+N <- length(Van_vfiax$mret)
+sdmean <- s/sqrt(N)
+
+cat("The standard error of the mean for the VFIAX index fund return is", sdmean)
+
+
+```
+
+b.
+```{r}
+m <- mean(Van_vfiax$mret)
+m
+```
+The mean and the standard error of the mean are almost exactly the same will cause the problem indicates that the performance of this fund is highly uncertain. This large uncertainty will make it hard for financial analyst to estimate and predict the return of the fund. It also indicates that the ratio of signal and noise is small since there are too many noises here. It makes the financial analyst hard to determine the true mean performance of this fund since the performance of it is volatile. Also, there might be potential large risks of this fund. Moreover, the confidence interval for the mean of this fund is large and wide since the standard error of the mean and the mean are almost the same. It is difficult for the financial analyst to make precise forecasts and rational decisions about this fund.
+
+c. 
+```{r}
+newN <- ((10 * s) / m)**2
+cat("The size of the sample should be greater than", newN)
+```
+Since the size of the sample is integer, we conclude that the size of the sample which would be required to reduce the standard error of the mean to 1/10th of the size of the mean return is 12971.
+
+\newpage
+
+### Question 6
+
+#### Part A
+
+1.
+```{r}
+library(DataAnalytics)
+data(mvehicles)
+cars=mvehicles[mvehicles$bodytype != "Truck",]
+fords = cars[cars$make == "Ford",]
+
+logical_vector <- cars$make == "Ford" 
+logical_vector[1:50]
+```
+
+2. 
+```{r}
+row_select <- cars$make == "Ford" 
+fords_select <- cars[row_select,]
+```
+3. 
+```{r}
+nrow(cars[cars$make == "Kia",])
+```
+There are 43 Kia observations in the cars data frame.
+
+4.
+```{r}
+nrow(cars[cars$emv > 100000,])
+```
+There are 37 cars have a price (emv) that is greater than $100,000.
+
+#### Part B.
+
+1.
+```{r}
+Enro_cars <- cars[cars$origin == "Europe" & cars$emv > 75000,]
+cat("The average sales for all cars made in Europe with price above $75,000 is", 
+    mean(Enro_cars$sales))
+```
+
+#### Part C.
+
+1.
+```{r}
+nrow(cars[grepl("4dr",cars$style,ignore.case=TRUE),])
+```
+There are 1105 four door vehicles are in cars.
+
+2.
+```{r}
+nrow(cars[grepl("4dr",cars$style,ignore.case=TRUE) & cars$bodytype == "Sedan",])
+```
+There are 432 four door sedans are in cars.
+
+\newpage
+
+### Question 7
+
+#### Part A
+
+There is no obvious pattern observed in this plot. It is hard to conclude the relationship between price and sales. Most of the points are centered around the bottom left of the plot and there are a few outliers on the top left.
+```{r}
+sedancars <- cars[cars$bodytype == "Sedan",]
+plot(sedancars$emv, sedancars$sales, main="Price vs Sales of Sedan Cars", 
+     xlab="price", ylab="sales")
+```
+
+
+#### Part B
+
+The log transformation helps make the points in the plot become more evenly distributed and scattered instead of centering around the bottom left. It is easier to observe the points now and see the relationship between log(price) and log(sales). The log transformation could help make the concave curve more linear and reduce skewness. The log transformation would cause compressing large values and expanding the axis for small values. The log transformation would change the interpretation since price and sales become log(price) and log(sales). It also cannot handle zero or negative values. In this question, the sales might be zero and so the log transformation would be undefined for some sales and will influence the interpretation and observation of the plot.
+```{r}
+plot(log(sedancars$emv), log(sedancars$sales), 
+     main="Log Transformation of Price vs Sales of Sedan Cars", 
+     xlab="log(price)", ylab="log(sales)")
+```
+
+
+
+```{r}
+plot(sqrt(sedancars$emv), sqrt(sedancars$sales), 
+     main="Square Root Transformation of Price vs Sales of Sedan Cars", 
+     xlab="sqrt(price)", ylab="sqrt(sales)")
+```
+
+The sqrt transformation is useful. It does not change the original pattern too much but it is clear to observe. It reduces the impact of large values but not reduces too much as the log transformation does. It helps maintain the shape of original data and it is more clear to observe although there is still some skewness. Moreover, the sqrt transformation can handle zero in this case even though it does not handle negative values well but there is high probability that negative values would not appear for price and sales. 
+
+#### Part C
+In general, there is no obvious downward trend in the plots above, which means that there is no clear negative relationship between sales and prices. The plot using the log transformation seems to indicate that as price increase sales will decreases. However, there are still some points that deviate from this conclusion. For example, we observe that there are some points at the bottom where log(sales) are below 4 and the log(prices) are not the same. These points are the points that the sales are similarly low but prices are different. Moreover, we found that the log(sales) when the log(prices) are below 9.5 is smaller than the log(sales) when the log(prices) are around 10. 
+Furthermore, observing the plot using square root transformation and the original data plot, we find that the sales are high for prices in the middle lower area not the cheapest price. Specifically, for the plot using square root transformation, we observe that the sqrt(sales) are higher for the cars whos sqrt(prices) are around 150. But the sqrt(sales) when sqrt(prices) are between 100 and 150 or above 200 is not too high.
+Also, we could observe the original data plot. Generally speaking, when the price is too high, specifically above 60000, the sale is really low. On the contrary, for the cars which prices between 20000 and 60000, the values of sales are volatile and we cannot directly conclude there is a negative linear relationship between sales and prices. Moreover, we observe that when price is around 20000, there are some points show high sales. However, for the prices below 20000, the sales are not higher than the sales when price is around 20000. 
+
+#### Part D
+The following is the codes that fit a regression model to this data. 
+```{r}
+regmodel <- lm(log(sales)~log(emv), data = sedancars)
+plot(log(sedancars$emv), log(sedancars$sales), 
+     main="Log Transformation of Price vs Sales of Sedan Cars", 
+     xlab="log(price)", ylab="log(sales)")
+abline(regmodel$coef, col = "red", lwd = 2)
+```
+
+#### Part E
+
+The prediction of sales for price = $45,000 using the model fit in part D) is 2239073.
+
+```{r}
+pred_sales <- predict(regmodel, new = data.frame(emv = log(45000)))
+exp(pred_sales)
+```
+
