@@ -1,0 +1,414 @@
+---
+title: "Group 32 - DDD Design"
+author: "Yuqi Gu, Jun Liu"
+date: "2025-05-18"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2) # for data visualization
+library(tidyverse) 
+library(lfe) 
+library(stargazer) # for producing regression tables
+library(dplyr)
+library(knitr)
+```
+
+### Table 6
+
+```{r cars}
+setwd('/Users/yuki/Desktop/409/Group Assignment')
+hotel_data <- read_csv("Hotel_Data.csv")
+
+```
+``` {r}
+# get subset of models 1-3
+hotel_fee_changes <- hotel_data %>%
+  group_by(master_id) %>%
+  summarise(
+    min_fee = min(rfeeinc, na.rm = TRUE),
+    max_fee = max(rfeeinc, na.rm = TRUE)
+  ) %>%
+  filter(min_fee != max_fee)
+
+
+full_sample <- hotel_data %>%
+  filter(master_id %in% hotel_fee_changes$master_id) %>%
+  filter(!is.na(ta)) %>%
+  mutate(
+    resort_fee = rfeeinc
+  ) %>%
+  select(rating, ta, resort_fee, bus, coup, fam, fr,
+         master_id, month, bigchain, stars, price, othmandfees)
+
+nrow(full_sample)             # should be same as 42,876
+length(unique(full_sample$master_id))  # should be 171
+
+```
+
+``` {r}
+
+model1 <- felm(
+  rating ~ ta * resort_fee, data = full_sample)
+
+
+model2 <- felm(
+  rating ~ ta * resort_fee | 
+    master_id,
+  data = full_sample)
+
+
+model3 <- felm(
+  rating ~ ta * resort_fee |
+    master_id, month,
+  data = full_sample
+)
+```
+
+
+```{r}
+
+firm_controls_vars <- c(
+  "stars", "price", "othmandfees", "otherfees",
+  "wateronsite", "winteronsite",
+  "tennisonsite", "golfonsite",
+  "casino", "fitness", "fitnessclasses", "fitnesscode", "spacode", "spa",
+  "restaurants", "roomservice", "concierge", "turndown", "poolstuff",
+  "indoorpools", "outdoorpools", "beachpoolstuff", "beachstuff"
+)
+ 
+# subsets for model 4 and 5
+full_sample45 <- hotel_data %>%
+  filter(master_id %in% hotel_fee_changes$master_id) %>%
+  filter(!is.na(ta)) %>%
+  mutate(
+    resort_fee = rfeeinc
+  ) %>%
+  select(
+    rating, ta, resort_fee, bus, coup, fam, fr,
+    master_id, month, bigchain,
+    all_of(firm_controls_vars)
+  )
+
+full_sample45 <- full_sample45 %>%
+  mutate(
+    bus = ifelse(is.na(bus), 0, bus),
+    coup = ifelse(is.na(coup), 0, coup),
+    fam = ifelse(is.na(fam), 0, fam),
+    fr = ifelse(is.na(fr), 0, fr)
+  )
+
+nrow(full_sample45)
+length(unique(full_sample45$master_id)) 
+
+```
+
+```{r}
+model4 <- felm(
+  rating ~ ta * resort_fee + 
+    stars + log(price + 1) + otherfees +
+    wateronsite + winteronsite + tennisonsite + golfonsite +
+    casino + fitness + fitnessclasses + spa +
+    restaurants + roomservice + concierge + turndown +
+    indoorpools + outdoorpools + beachpoolstuff |
+    master_id + month + bigchain |
+    0 | master_id,
+  data = full_sample45
+)
+
+model5 <- felm(
+  rating ~ ta * resort_fee + bus + coup + fam + fr +
+    stars + log(price + 1) + otherfees +
+    wateronsite + winteronsite + tennisonsite + golfonsite +
+    casino + fitness + fitnessclasses + spa +
+    restaurants + roomservice + concierge + turndown +
+    indoorpools + outdoorpools + beachpoolstuff |
+    master_id + month + bigchain |
+    0 | master_id,
+  data = full_sample45
+)
+
+length(unique(model5$clustervar[[1]]))
+```
+
+
+``` {r}
+stargazer(model1, model2, model3, model4, model5,
+  title = "Replication of Table 6 – Chiles: Impact of Resort Fees on Ratings",
+  column.labels = c("Model 1", "Model 2", "Model 3", "Model 4", "Model 5"),
+  keep = c("ta", "resort_fee", "ta:resort_fee", "bus", "coup", "fam", "fr"),
+  add.lines = list(
+    c("Firm Fixed Effects",   "No",  "Yes", "Yes", "Yes", "Yes"),
+    c("Month Fixed Effects",  "No",  "No",  "Yes", "Yes", "Yes"),
+    c("Chain Fixed Effects",  "No",  "No",  "No",  "Yes", "Yes"),
+    c("Firm Controls",        "No",  "No",  "No",  "Yes", "Yes")
+  ),
+  digits = 2,
+  type = "text"
+)
+
+```
+After the discussion with Kate, we conclude that the baseline reference might not be the same for different people's regression models. Thus, for model 2, 3, 4, 5, we utilize fixed effects and the constants are not shown.
+
+
+
+### Table 9
+``` {r}
+cbsa_lookup <- hotel_data %>%
+  select(master_id, cbsa, cbsa_name) %>%
+  distinct()
+
+full_sample_table9 <- full_sample45 %>%
+  left_join(cbsa_lookup, by = "master_id")
+
+
+nrow(full_sample_table9) 
+
+```
+
+``` {r}
+# Tier Divide
+# resort_amenities in  full_sample_table9 is defined
+
+# 1. Stars 
+low_tier     <- filter(full_sample_table9, stars <= 2)
+mid_tier     <- filter(full_sample_table9, stars > 2 & stars < 3.5)
+high_tier    <- filter(full_sample_table9, stars >= 3.5)
+
+
+
+low_tier <- low_tier %>%
+  mutate(
+    resorta = as.integer(
+      beachstuff == 1 |
+      fitness == "Health club" |
+      spa == "Full-service spa" |
+      golfonsite == 1 |
+      poolstuff == 1 |
+      beachpoolstuff == 1
+    )
+  )
+
+mid_high_tier <- full_sample_table9 %>%
+  filter(stars > 2)
+
+
+mid_high_tier <- full_sample_table9 %>%
+  filter(stars > 2) %>%
+  mutate(
+    resorta = as.integer(
+      beachpoolstuff == 1 |
+      fitness == "Health club" |
+      spa == "Full-service spa" |
+      golfonsite == 1 |
+      poolstuff == 1 |
+      beachpoolstuff == 1
+    )
+  )
+
+```
+
+
+
+
+
+``` {r}
+# 2. Low-Tier price — group by cbsa + stars
+low_price_low <- low_tier %>%
+  group_by(cbsa_name, stars) %>%
+  filter(price <= mean(price, na.rm = TRUE)) %>%
+  ungroup()
+
+
+high_price_low <- low_tier %>%
+  group_by(cbsa_name, stars) %>%
+  filter(price > mean(price, na.rm = TRUE)) %>%
+  ungroup()
+
+
+
+# 3. Low-Tier amenities
+no_amen_low <- low_tier %>%
+  filter(resorta == 0)
+
+
+yes_amen_low <- low_tier %>%
+  filter(resorta == 1)
+
+
+
+# 5. Mid/High-Tier price — group by cbsa + stars
+low_price_mh <- mid_high_tier %>%
+  group_by(cbsa_name, stars) %>%
+  filter(price <= mean(price, na.rm = TRUE)) %>%
+  ungroup()
+
+high_price_mh <- mid_high_tier %>%
+  group_by(cbsa_name, stars) %>%
+  filter(price > mean(price, na.rm = TRUE)) %>%
+  ungroup()
+
+# 6. Mid/High-Tier amenities
+no_amen_mh <- mid_high_tier %>%
+  filter(resorta == 0)
+
+yes_amen_mh <- mid_high_tier %>%
+  filter(resorta == 1)
+
+
+```
+
+
+
+``` {r}
+run_model <- function(df) {
+  felm(
+    rating ~ ta * resort_fee + bus + coup + fam + fr +
+      stars + log(price + 1) + otherfees  |
+      master_id + month + bigchain + 
+      wateronsite + winteronsite + tennisonsite + golfonsite +
+      casino + fitness + fitnessclasses + spa + 
+      restaurants + roomservice + concierge + turndown +
+      indoorpools + outdoorpools + beachpoolstuff | 0 | master_id,
+    data = df
+  )
+}
+
+
+```
+
+``` {r}
+models <- list(
+  Low_Tier        = run_model(low_tier),
+  Mid_Tier        = run_model(mid_tier),
+  High_Tier       = run_model(high_tier),
+  Low_Price_Low   = run_model(low_price_low),
+  High_Price_Low  = run_model(high_price_low),
+  No_Amen_Low     = run_model(no_amen_low),
+  Yes_Amen_Low    = run_model(yes_amen_low),
+  Low_Price_MH    = run_model(low_price_mh),
+  High_Price_MH   = run_model(high_price_mh),
+  No_Amen_MH      = run_model(no_amen_mh),
+  Yes_Amen_MH     = run_model(yes_amen_mh)
+)
+
+
+```
+
+``` {r}
+extract_results <- function(model, label) {
+  coefs <- summary(model)$coefficients
+  data.frame(
+    Subgroup = label,
+    Main_Effect = round(coefs["resort_fee", "Estimate"], 2),
+    Main_SE     = paste0("(", round(coefs["resort_fee", "Cluster s.e."], 2), ")"),
+    Treat_Effect = round(coefs["ta:resort_fee", "Estimate"], 2),
+    Treat_SE     = paste0("(", round(coefs["ta:resort_fee", "Cluster s.e."], 2), ")"),
+    Reviews = nobs(model),
+    Hotels  = length(unique(model$clustervar[[1]]))
+  )
+}
+
+results_table9 <- do.call(rbind, Map(extract_results, models, names(models)))
+
+kable(results_table9, caption = "Table 9: D-in-D Results by Subgroup (Model 5 Spec)")
+```
+
+
+### DAG of Chiles’ regression 5 from table 6
+
+``` {r}
+
+library(dagitty)
+library(ggdag)
+
+dag <- dagitty("dag {
+  tripadv -> rating
+  resort_fee -> rating
+  tripadv_resort_fee_interaction -> rating
+  business_trav -> rating
+  couple_trav -> rating
+  family_trav -> rating
+  friends_trav -> rating
+}")
+
+coordinates(dag) <- list(
+  x = c(tripadv = 0.5, resort_fee = 0, tripadv_resort_fee_interaction = 0.5,
+        business_trav = -1, couple_trav = -1, family_trav = -1, friends_trav = -1,
+        rating = 1.5),
+  y = c(tripadv = 1.5, resort_fee = 0, tripadv_resort_fee_interaction = 0.5,
+        business_trav = 2, couple_trav = 1.5, family_trav = 1, friends_trav = 0.5,
+        rating = 1)
+)
+
+ggdag(dag, text = TRUE, use_labels = "name") + theme_dag()
+
+```
+
+#### Intuition behind Chiles’ diff-in-diff-in-diff analysis  
+
+Chiles uses a Difference-in-Difference-in-Difference design to identify the causal effect of hidden resort fees on traveler ratings. The key insight is that the same resort fee policy can appear transparent or hidden depending on the booking platform. On Expedia, fees marked as "included" are shown up front and paid at booking, while on TripAdvisor, such fees are often shrouded in fine print and revealed only upon check-in or checkout.
+
+This setting allows the author to construct three dimensions of variation: (1) before versus after a hotel adopts or removes a resort fee, (2) whether the review comes from Expedia (where fees may be visible) or TripAdvisor (where fees are hidden), and (3) whether or not a resort fee was charged. 
+
+The interaction between all three, captured in the tripadv × resort_fee variable, isolates the causal effect of shrouding on perceived service quality, as measured by customer ratings. Conceptually, if TripAdvisor monitoring imposes reputational pressure on hotels, customers who experience hidden fees via this platform should penalize the hotel more severely than those booking via transparent channels like Expedia. Thus, the coefficient on the interaction term provides the core insight into how platform-based transparency moderates the impact of pricing strategies on customer perception.  
+
+#### Describe variable in the DAG
+
+- The variable rating is the outcome node, influenced by multiple causes. 
+
+- The variable tripadv acts as an indicator of whether the review was posted on TripAdvisor, serving as a proxy for the platform's transparency and its role in exposing hidden fees. 
+
+- The variable resort_fee represents the presence of a potentially shrouded mandatory fee. 
+
+- The interaction between tripadv and resort_fee—represented as tripadv_resort_fee_interaction—is the core causal term in the D-D-D strategy.
+
+- The traveler-type variables, business_trav, couple_trav, family_trav, and friends_trav, are included as observed covariates that control for systematic differences in how various types of guests evaluate their experiences. 
+
+#### The role of fixed effects 
+
+- Firm fixed effects account for time-invariant characteristics of individual hotels that may systematically influence customer ratings. These characteristics include the hotel's location, size, baseline service quality, long-term management style, neighborhood, and customer base—factors that do not change over time but can heavily impact how a hotel is perceived by guests. By including firm-level fixed effects, the model ensures that comparisons are made within the same hotel, before and after changes in fee policy, rather than across fundamentally different properties.
+
+- Month fixed effects control for seasonal variation in traveler behavior and expectations. For example, travelers in December may leave higher ratings due to holiday goodwill, while those traveling during summer peak seasons might be more critical due to crowding or high prices. These time-based factors can affect ratings independently of any fee changes, and the inclusion of monthly indicators helps isolate treatment effects from broader temporal trends.
+
+- Chain fixed effects capture differences in brand standards and corporate pricing strategies across hotel groups. Chains like Marriott or Hilton may have consistent resort fee practices, standardized customer service protocols, or loyalty program benefits that influence both the likelihood of charging hidden fees and how guests respond to them. By absorbing chain-specific effects, the model controls for brand-level policies that could confound the relationship between resort fees and ratings.
+
+### Should Hotels Shroud Resort Fees?
+
+#### Do you agree with Chiles’ assessment of whether it is a good idea for hotels to shroud their resort fees?  
+
+Based on Chiles' results, we would argue that it is not a good idea for hotels to shroud resort fees, for those that are subject to reputation pressure through platforms like TripAdvisor. The key finding from the D-D-D regression is that hotels that introduce resort fees receive lower customer ratings on TripAdvisor, where the fees are more likely to be hidden during booking. This suggests that customers penalize a lack of price transparency, particularly when they feel misled or surprised by additional charges at check-in or checkout.
+
+#### What kinds of hotels might have more or less incentive to shroud?
+
+High-end or luxury hotels may be able to shroud fees without substantial reputational damage, either because their clientele expects extra fees or because such customers value amenities over pricing transparency. 
+
+Budget or mid-range hotels, on the other hand, may face more price-sensitive guests who are more likely to leave negative reviews in response to unexpected fees. 
+
+Similarly, hotels that cater to infrequent or one-time travelers (such as resorts or vacation destinations) may have more incentive to shroud, as they rely less on repeat business and more on extracting short-term revenue.
+
+#### Does the cross-section of which hotels do or do not shroud line up with your assessment of hotels’ incentives?
+
+The cross-section of hotels that shroud does not align perfectly with the economic incentives we might expect. Some chains or firms may adopt blanket resort fee policies regardless of local market conditions, while others may opt out due to brand positioning or reputation concerns.
+
+In practice, some high-end or well-known hotel chains still choose to shroud fees, even though their clientele is likely to care about transparency and service quality. Conversely, some mid-scale or independent hotels refrain from shrouding, even though they might have short customer lifecycles and limited brand reputation at risk.
+
+#### If we take selection of which hotels shroud into account, what does that imply for Chiles’ estimates of the costs and benefits from shrouding?
+
+If selection into shrouding is non-random, meaning that hotels self-select into shrouding based on unobservable factors like customer base, pricing strategy, and local competition, this introduces selection bias into the analysis.
+
+Accounting for selection implies that Chiles' estimates may understate or overstate the true cost of shrouding. If only the hotels least affected by reputational penalties choose to shroud, then the observed negative effects on ratings could be less severe than they would be in the full population. Conversely, if only the more desperate or poorly managed hotels choose to shroud, the negative ratings impact could be exaggerated. 
+
+In either case, the presence of selection highlights the importance of interpreting Chiles' causal estimates as local average treatment effects, applicable primarily to the subset of hotels that do shroud under existing conditions.
+
+### Should Platform Allow Hotels to Shroud?
+
+From the perspective of the platform, allowing hotels to shroud resort fees creates a trade-off between short-term revenue maximization and long-term user trust and platform reputation. 
+
+On one hand, permitting hotels to shroud fees may increase conversion rates on the platform. Listed prices appear lower, drawing in more price-sensitive users, and hotels may be more willing to pay for higher visibility or advertising if they can control fee presentation. This can boost the platform’s commission-based revenue in the short run.
+
+However, shrouding undermines pricing transparency, which is a core component of user experience. If customers frequently encounter hidden fees after booking, they may feel misled or deceived—leading to dissatisfaction, negative reviews, or even attrition from the platform altogether. Over time, this erodes trust in the platform as a reliable booking intermediary. For platforms that compete on user loyalty and brand integrity, this reputation cost may outweigh any short-term financial benefit from enabling shrouding.
+
+Therefore, from a long-term platform design perspective, platforms should not allow hotels to shroud fees. Instead, it should enforce transparent all-in pricing, promote fair comparison, and maintain consumer trust.
+
